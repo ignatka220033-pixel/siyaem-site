@@ -58,6 +58,7 @@
       flex: 1 1 auto;
       display: flex;
       align-items: center;
+      /* центр пока пустой — просто растягиваем, чтобы кнопки справа красиво смотрелись */
     }
 
     .topbar-right {
@@ -120,23 +121,20 @@
       color: #9ca3af;
     }
 
-    /* Поисковая строка */
+    /* Поисковое поле (теперь используем внутри шторки) */
     .search-box {
       width: 100%;
-      max-width: 640px;
-      margin: 0 auto;
-      height: 40px;
+      height: 36px;
       border-radius: 999px;
       background: rgba(15,23,42,0.97);
       border: 1px solid rgba(148,163,184,0.55);
       display: flex;
       align-items: center;
-      padding: 0 14px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+      padding: 0 10px;
     }
     .search-icon {
-      font-size: 18px;
-      margin-right: 8px;
+      font-size: 16px;
+      margin-right: 6px;
       color: #9ca3af;
     }
     .search-input {
@@ -144,7 +142,7 @@
       border: none;
       outline: none;
       background: transparent;
-      font-size: 14px;
+      font-size: 13px;
       color: #e5e7eb;
     }
     .search-input::placeholder {
@@ -194,7 +192,7 @@
       filter: brightness(1.08);
     }
 
-    /* Категории + фильтры (теперь только внутри шторки, но стиль оставляем) */
+    /* Категории + фильтры (внутри шторки) */
     .categories-row {
       display: flex;
       gap: 14px;
@@ -459,12 +457,8 @@
     </div>
   </div>
 
-  <div class="topbar-center">
-    <div class="search-box">
-      <div class="search-icon">🔍</div>
-      <input class="search-input" placeholder="Поиск места, адреса или категории…" />
-    </div>
-  </div>
+  <!-- центр теперь пустой, без поиска -->
+  <div class="topbar-center"></div>
 
   <div class="topbar-right">
     <button class="pill-btn sos" id="btnSos">
@@ -479,7 +473,7 @@
   </div>
 </div>
 
-<!-- ЛЕВАЯ ШТОРКА: ЛОГО + КАТЕГОРИИ + ФИЛЬТРЫ + МЕСТА -->
+<!-- ЛЕВАЯ ШТОРКА: ЛОГО + ПОИСК + КАТЕГОРИИ + ФИЛЬТРЫ + МЕСТА -->
 <div class="side-panel left" id="leftPanel">
   <div class="panel-header">
     <div style="display:flex; align-items:center; gap:8px;">
@@ -493,6 +487,14 @@
   </div>
 
   <div class="panel-body">
+
+    <!-- Поиск теперь здесь, внутри шторки -->
+    <div style="margin-bottom:10px;">
+      <div class="search-box" style="box-shadow:none;">
+        <div class="search-icon">🔍</div>
+        <input class="search-input" placeholder="Поиск по местам и адресам…" />
+      </div>
+    </div>
 
     <div class="panel-section-title">Категории</div>
     <div class="categories-row">
@@ -665,6 +667,7 @@
       cat.classList.add('active');
     });
   });
+
   // фильтры внутри шторки
   document.querySelectorAll('.filter-chip').forEach(chip => {
     chip.addEventListener('click', () => chip.classList.toggle('active'));
