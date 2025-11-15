@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Siyaem Korea Map</title>
+  <title>SiyaEm Korea Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -16,17 +16,18 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #020617;
       color: #e5e7eb;
-      overflow: hidden;
+      overflow: hidden; /* чтобы на мобиле не дёргало */
     }
 
-    /* КАРТА (пока просто фон, как будто карта) */
+    /* ФОН (вместо карты — пока градиент) */
     #map {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at 30% 20%, #1f2937, #020617 60%, #000 100%);
+      background:
+        radial-gradient(circle at 10% 0%, #1e293b, #020617 55%, #020617 100%);
       background-image:
-        radial-gradient(circle at 40% 30%, rgba(59,130,246,0.25), transparent 60%),
-        radial-gradient(circle at 70% 70%, rgba(45,212,191,0.25), transparent 60%);
+        radial-gradient(circle at 20% 30%, rgba(99,102,241,0.22), transparent 65%),
+        radial-gradient(circle at 80% 70%, rgba(56,189,248,0.18), transparent 65%);
       z-index: 1;
     }
 
@@ -89,7 +90,7 @@
       height: 40px;
       border-radius: 999px;
       padding: 0 14px 0 6px;
-      background: linear-gradient(135deg, #111827, #020617);
+      background: linear-gradient(135deg, #020617, #020617);
       border: 1px solid rgba(148,163,184,0.6);
       display: flex;
       align-items: center;
@@ -170,11 +171,11 @@
       font-size: 15px;
     }
     .pill-btn.primary {
-      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
       border: none;
       color: #020617;
       font-weight: 600;
-      box-shadow: 0 10px 30px rgba(34,197,94,0.6);
+      box-shadow: 0 10px 30px rgba(59,130,246,0.55);
     }
     .pill-btn.sos {
       background: radial-gradient(circle at 30% 20%, #fecaca, #ef4444 60%, #7f1d1d 100%);
@@ -195,13 +196,13 @@
       filter: brightness(1.08);
     }
 
-    /* Плавающий блок категорий/фильтров прямо на карте */
+    /* Плавающая панель (категории + текст) */
     .floating-top {
       position: fixed;
-      top: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(1100px, 100% - 16px);
+      top: 80px;
+      left: 12px;               /* как у Яндекс — прижато к левому краю */
+      transform: none;
+      width: min(780px, 100% - 24px);
       z-index: 2;
       pointer-events: none;
     }
@@ -211,16 +212,40 @@
       background: rgba(15,23,42,0.96);
       border-radius: 18px;
       border: 1px solid rgba(148,163,184,0.45);
-      padding: 10px 12px 8px;
+      padding: 10px 14px 10px;
       box-shadow: 0 18px 40px rgba(0,0,0,0.8);
+    }
+
+    /* Заголовок SiyaEm по центру */
+    .hero-title {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .hero-main {
+      font-size: 22px;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .hero-sub {
+      margin-top: 3px;
+      font-size: 13px;
+      color: #e5e7eb;
+    }
+    .hero-sub-small {
+      margin-top: 2px;
+      font-size: 11px;
+      color: #9ca3af;
     }
 
     .categories-row {
       display: flex;
       gap: 14px;
-      padding: 4px 2px 6px;
+      padding: 8px 2px 6px;
       overflow-x: auto;
       scrollbar-width: none;
+      justify-content: flex-start; /* Влево */
     }
     .categories-row::-webkit-scrollbar {
       display: none;
@@ -237,7 +262,7 @@
       height: 52px;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 20%, #111827, #020617);
-      border: 1px solid #38bdf8;
+      border: 1px solid #4f46e5;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -288,12 +313,11 @@
       color: #e5e7eb;
     }
 
-    /* ЛЕВАЯ ШТОРКА (почти как у Яндекс) */
+    /* ЛЕВАЯ ШТОРКА */
     .side-panel {
       position: fixed;
       top: 0;
       bottom: 0;
-      width: 360px;
       background: rgba(15,23,42,0.98);
       box-shadow: 0 0 40px rgba(0,0,0,0.9);
       z-index: 4;
@@ -303,6 +327,7 @@
     }
     .side-panel.left {
       left: 0;
+      width: 360px;
       transform: translateX(-100%);
       border-right: 1px solid rgba(31,41,55,0.9);
     }
@@ -426,7 +451,7 @@
       text-align: left;
     }
     .profile-button.primary {
-      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
       border: none;
       color: #020617;
       font-weight: 600;
@@ -436,7 +461,7 @@
       border-color: #38bdf8;
     }
 
-    /* Полупрозрачная подложка при открытой шторке */
+    /* Полупрозрачная подложка при открытых шторках */
     .backdrop {
       position: fixed;
       inset: 0;
@@ -454,6 +479,8 @@
     @media (max-width: 800px) {
       .floating-top {
         top: 74px;
+        left: 8px;
+        width: calc(100% - 16px);
       }
       .side-panel.left {
         width: 100%;
@@ -477,10 +504,10 @@
 
 <div id="map"></div>
 
-<!-- ПОЛУПРОЗРАЧНЫЙ ФОН ДЛЯ ШТОРОК -->
+<!-- ПОДЛОЖКА ДЛЯ ШТОРОК -->
 <div class="backdrop" id="backdrop"></div>
 
-<!-- ВЕРХНЯЯ ПАНЕЛЬ, как у Яндекс -->
+<!-- ВЕРХНЯЯ ПАНЕЛЬ -->
 <div class="topbar">
   <div class="topbar-left">
     <button class="icon-btn" id="btnMenu" title="Меню">
@@ -515,9 +542,20 @@
   </div>
 </div>
 
-<!-- Плавающая панель категорий и фильтров -->
+<!-- Плавающая панель -->
 <div class="floating-top">
   <div class="floating-inner">
+
+    <!-- Заголовок SiyaEm -->
+    <div class="hero-title">
+      <div class="hero-main">SiyaEm</div>
+      <div class="hero-sub">Центр помощи для русскоязычных в Южной Корее</div>
+      <div class="hero-sub-small">
+        SiyaEm — надёжный помощник в поиске проверенных партнёров, сервисов и мест для жизни.
+      </div>
+    </div>
+
+    <!-- Категории -->
     <div class="categories-row">
       <div class="cat active">
         <div class="cat-icon">🍽</div>
@@ -549,6 +587,7 @@
       </div>
     </div>
 
+    <!-- Фильтры -->
     <div class="filters-row">
       <div class="filter-chip active">Открыто сейчас</div>
       <div class="filter-chip">4.5+ рейтинг</div>
@@ -559,7 +598,7 @@
   </div>
 </div>
 
-<!-- ЛЕВАЯ ШТОРКА: список мест, как у Яндекс -->
+<!-- ЛЕВАЯ ШТОРКА: список мест -->
 <div class="side-panel left" id="leftPanel">
   <div class="panel-header">
     <div>
@@ -615,8 +654,8 @@
 <div class="side-panel right" id="rightPanel">
   <div class="panel-header">
     <div>
-      <div class="panel-header-title">Аккаунт Siyaem</div>
-      <div class="panel-header-sub">В будущем здесь будет личный кабинет</div>
+      <div class="panel-header-title">Аккаунт SiyaEm</div>
+      <div class="panel-header-sub">Здесь позже будет личный кабинет</div>
     </div>
     <div class="panel-close" data-close="right">&times;</div>
   </div>
@@ -637,8 +676,8 @@
 
     <div class="panel-section-title" style="margin-top:12px;">О проекте</div>
     <p style="font-size:12px; color:#9ca3af; line-height:1.4;">
-      Siyaem Korea — сервис для русскоязычных в Южной Корее: проверенные кафе, салоны,
-      автосервисы и офисы помощи. Все точки модератор проверяет лично.
+      SiyaEm Korea — сервис для русскоязычных в Южной Корее: проверенные кафе, салоны,
+      автосервисы, офисы помощи и другие сервисы. Все точки модератор проверяет лично.
     </p>
   </div>
 </div>
@@ -668,20 +707,22 @@
   });
   backdrop.addEventListener('click', closePanels);
 
-  // визуальное переключение категорий/фильтров
+  // Переключение категорий
   document.querySelectorAll('.cat').forEach(cat => {
     cat.addEventListener('click', () => {
       document.querySelectorAll('.cat').forEach(c => c.classList.remove('active'));
       cat.classList.add('active');
     });
   });
+
+  // Переключение фильтров
   document.querySelectorAll('.filter-chip').forEach(chip => {
     chip.addEventListener('click', () => chip.classList.toggle('active'));
   });
 
-  // SOS пока просто показывает alert (потом привяжем окно)
+  // SOS пока просто показывает сообщение
   document.getElementById('btnSos').addEventListener('click', () => {
-    alert('SOS: сюда потом подключим экстренную помощь — полиция, скорая, помощь переводчика и т.д.');
+    alert('SOS: сюда позже подключим экстренную помощь — полиция, скорая, переводчик и т.д.');
   });
 </script>
 </body>
