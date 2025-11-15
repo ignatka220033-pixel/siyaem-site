@@ -2,15 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Siyaem Korea — карта русскоязычных мест</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Kakao Maps SDK -->
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=f63924b38de08f3162d1ea0a73766b9a&libraries=services,clusterer"></script>
-
-  <!-- Firebase SDK (compat) -->
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+  <title>Siyaem Korea Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
     * {
@@ -20,165 +13,216 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #020617;
-      color: #e5ecff;
-    }
-    body {
+      color: #e5e7eb;
       overflow: hidden;
     }
 
-    /* КАРТА НА ВЕСЬ ЭКРАН */
+    /* КАРТА (пока просто фон, как будто карта) */
     #map {
       position: fixed;
       inset: 0;
-      width: 100%;
-      height: 100%;
+      background: radial-gradient(circle at 30% 20%, #1f2937, #020617 60%, #000 100%);
+      background-image:
+        radial-gradient(circle at 40% 30%, rgba(59,130,246,0.25), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(45,212,191,0.25), transparent 60%);
       z-index: 1;
     }
 
-    /* ВЕРХНЯЯ ПАНЕЛЬ (поверх карты) */
-    .top-bar {
+    /* ВЕРХНЯЯ ПАНЕЛЬ, как у Яндекс */
+    .topbar {
       position: fixed;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(1100px, 100% - 20px);
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      height: 52px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.92);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      backdrop-filter: blur(18px);
-      z-index: 10;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+      gap: 8px;
+      z-index: 3;
     }
 
-    .logo-block {
+    .topbar-left,
+    .topbar-right {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .logo-mark {
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #facc15, #f97316 60%, #0f172a 100%);
-      box-shadow: 0 0 18px rgba(250, 204, 21, 0.5);
+    .topbar-left {
+      flex: 0 0 auto;
     }
 
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
-
-    .logo-text span:first-child {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      font-weight: 600;
-    }
-    .logo-text span:last-child {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .top-bar-right {
+    .topbar-center {
+      flex: 1 1 auto;
       display: flex;
       align-items: center;
-      gap: 8px;
     }
 
-    .btn {
+    .topbar-right {
+      flex: 0 0 auto;
+      justify-content: flex-end;
+    }
+
+    /* Кнопки в шапке */
+    .icon-btn {
+      min-width: 40px;
+      height: 40px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      padding: 7px 12px;
-      background: rgba(15, 23, 42, 0.85);
-      color: #e5ecff;
-      font-size: 12px;
-      cursor: pointer;
+      border: 1px solid rgba(148,163,184,0.6);
+      background: rgba(15,23,42,0.96);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      cursor: pointer;
+      color: #e5e7eb;
+      font-size: 16px;
+      box-shadow: 0 4px 14px rgba(15,23,42,0.8);
     }
-    .btn span.icon {
-      font-size: 14px;
-    }
-    .btn:hover {
+    .icon-btn:hover {
       border-color: #38bdf8;
       color: #f9fafb;
     }
 
-    .btn-primary {
-      border: none;
-      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-      color: #0f172a;
-      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.45);
-      font-weight: 600;
-    }
-
-    .btn-sos {
-      border: none;
-      background: radial-gradient(circle at 30% 20%, #fecaca, #ef4444 60%, #7f1d1d 100%);
-      color: #fff1f2;
-      font-weight: 700;
-      box-shadow: 0 12px 35px rgba(248, 113, 113, 0.6);
-    }
-
-    /* ПАНЕЛЬ ПОИСКА + КАТЕГОРИИ + ФИЛЬТРЫ (как у Яндекс) */
-    .floating-panel {
-      position: fixed;
-      top: 64px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(1100px, 100% - 20px);
-      z-index: 9;
-      margin-top: 10px;
-    }
-
-    .search-box {
-      width: 100%;
-      background: rgba(15, 23, 42, 0.96);
+    .brand-pill {
+      height: 40px;
+      border-radius: 999px;
+      padding: 0 14px 0 6px;
+      background: linear-gradient(135deg, #111827, #020617);
+      border: 1px solid rgba(148,163,184,0.6);
       display: flex;
       align-items: center;
-      border: 1px solid #273349;
-      border-radius: 12px;
-      padding: 8px 12px;
-      margin-bottom: 10px;
-      backdrop-filter: blur(14px);
+      gap: 8px;
+      box-shadow: 0 8px 26px rgba(0,0,0,0.7);
+      cursor: default;
     }
 
+    .brand-logo {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #facc15, #f97316 60%, #b91c1c 100%);
+      box-shadow: 0 0 16px rgba(250,204,21,0.7);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .brand-text strong {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .brand-text span {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    /* Поисковая строка, как у Яндекс */
+    .search-box {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      height: 40px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.97);
+      border: 1px solid rgba(148,163,184,0.55);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+    }
     .search-icon {
       font-size: 18px;
-      margin-right: 10px;
-      color: #8aa4d8;
+      margin-right: 8px;
+      color: #9ca3af;
     }
-
     .search-input {
-      flex: 1;
-      background: transparent;
+      flex: 1 1 auto;
       border: none;
       outline: none;
-      color: #dbe6ff;
+      background: transparent;
       font-size: 14px;
+      color: #e5e7eb;
     }
     .search-input::placeholder {
-      color: #7383a8;
+      color: #6b7280;
     }
 
-    .categories-yn {
+    .pill-btn {
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.65);
+      background: rgba(15,23,42,0.96);
+      padding: 0 14px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      color: #e5e7eb;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+    }
+    .pill-btn span.icon {
+      font-size: 15px;
+    }
+    .pill-btn.primary {
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      border: none;
+      color: #020617;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(34,197,94,0.6);
+    }
+    .pill-btn.sos {
+      background: radial-gradient(circle at 30% 20%, #fecaca, #ef4444 60%, #7f1d1d 100%);
+      border: none;
+      color: #fdf2f8;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(248,113,113,0.8);
+    }
+
+    .pill-btn:hover {
+      border-color: #38bdf8;
+      color: #f9fafb;
+    }
+    .pill-btn.primary:hover {
+      filter: brightness(1.05);
+    }
+    .pill-btn.sos:hover {
+      filter: brightness(1.08);
+    }
+
+    /* Плавающий блок категорий/фильтров прямо на карте */
+    .floating-top {
+      position: fixed;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1100px, 100% - 16px);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .floating-inner {
+      pointer-events: auto;
+      background: rgba(15,23,42,0.96);
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.45);
+      padding: 10px 12px 8px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.8);
+    }
+
+    .categories-row {
       display: flex;
       gap: 14px;
-      padding: 8px 2px 6px;
+      padding: 4px 2px 6px;
       overflow-x: auto;
       scrollbar-width: none;
     }
-    .categories-yn::-webkit-scrollbar {
+    .categories-row::-webkit-scrollbar {
       display: none;
     }
 
@@ -188,414 +232,456 @@
       align-items: center;
       cursor: pointer;
     }
-
     .cat-icon {
-      width: 55px;
-      height: 55px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 20%, #111827, #020617);
       border: 1px solid #38bdf8;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 22px;
       color: #f9fafb;
-      font-size: 23px;
-      transition: 0.18s ease;
-      box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.0);
+      transition: 0.2s;
+      box-shadow: 0 0 0 0 rgba(56,189,248,0.0);
     }
-
     .cat-name {
-      color: #c5d7ff;
       font-size: 11px;
-      margin-top: 6px;
+      color: #cbd5f5;
+      margin-top: 5px;
       text-align: center;
-      width: 70px;
+      width: 72px;
     }
-
     .cat:hover .cat-icon,
     .cat.active .cat-icon {
       border-color: #67e8f9;
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+      box-shadow: 0 0 12px rgba(56,189,248,0.9);
       transform: translateY(-3px);
     }
 
-    .filter-bar {
+    .filters-row {
       display: flex;
       gap: 10px;
-      padding: 6px 2px 0;
+      padding: 4px 2px 0;
       overflow-x: auto;
       scrollbar-width: none;
     }
-    .filter-bar::-webkit-scrollbar {
+    .filters-row::-webkit-scrollbar {
       display: none;
     }
-
-    .filter {
-      background: rgba(15, 23, 42, 0.96);
-      border-radius: 10px;
-      border: 1px solid #2f3b55;
-      padding: 6px 11px;
+    .filter-chip {
+      padding: 4px 10px 5px;
+      border-radius: 999px;
       font-size: 12px;
-      color: #c6d4ff;
+      background: #020617;
+      border: 1px solid #374151;
+      color: #d1d5db;
       white-space: nowrap;
       cursor: pointer;
-      transition: 0.18s ease;
+      transition: 0.18s;
     }
-
-    .filter:hover,
-    .filter.active {
-      background: #263146;
+    .filter-chip:hover,
+    .filter-chip.active {
+      background: #111827;
       border-color: #38bdf8;
-      color: #e9f4ff;
+      color: #e5e7eb;
     }
 
-    /* Модалка авторизации */
-    .modal-backdrop {
+    /* ЛЕВАЯ ШТОРКА (почти как у Яндекс) */
+    .side-panel {
       position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 20;
-    }
-    .modal-backdrop.active {
+      top: 0;
+      bottom: 0;
+      width: 360px;
+      background: rgba(15,23,42,0.98);
+      box-shadow: 0 0 40px rgba(0,0,0,0.9);
+      z-index: 4;
       display: flex;
+      flex-direction: column;
+      transition: transform 0.22s ease-out;
+    }
+    .side-panel.left {
+      left: 0;
+      transform: translateX(-100%);
+      border-right: 1px solid rgba(31,41,55,0.9);
+    }
+    .side-panel.right {
+      right: 0;
+      width: 280px;
+      transform: translateX(100%);
+      border-left: 1px solid rgba(31,41,55,0.9);
+    }
+    .side-panel.open.left {
+      transform: translateX(0%);
+    }
+    .side-panel.open.right {
+      transform: translateX(0%);
     }
 
-    .modal {
-      background: radial-gradient(circle at top, #020617, #020617 55%, #000 100%);
-      padding: 20px 22px;
-      border-radius: 18px;
-      width: 100%;
-      max-width: 360px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-    }
-    .modal h3 {
-      margin: 0 0 10px 0;
-      font-size: 18px;
-    }
-    .modal-label {
-      font-size: 12px;
-      margin-top: 8px;
-      margin-bottom: 4px;
-      color: #cbd5f5;
-    }
-    .modal-input {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid #3b3f63;
-      background: #020617;
-      color: #e5ecff;
-      font-size: 13px;
-      outline: none;
-    }
-    .modal-buttons {
-      margin-top: 14px;
+    .panel-header {
+      padding: 10px 14px;
       display: flex;
-      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(31,41,55,0.9);
     }
-    .modal-btn {
-      flex: 1;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 0;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    .modal-btn.primary {
-      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-      color: #0f172a;
+    .panel-header-title {
+      font-size: 14px;
       font-weight: 600;
     }
-    .modal-btn.outline {
-      background: #111827;
-      color: #e5ecff;
-      border: 1px solid #3b3f63;
+    .panel-header-sub {
+      font-size: 11px;
+      color: #9ca3af;
     }
-    .modal-status {
-      margin-top: 8px;
-      font-size: 12px;
-      min-height: 16px;
-      color: #9ca3c7;
-    }
-    .modal-close-link {
-      margin-top: 8px;
-      font-size: 12px;
-      text-align: right;
-      color: #9ca3c7;
+
+    .panel-close {
       cursor: pointer;
+      font-size: 18px;
+      color: #9ca3af;
     }
-
-    /* Модалка SOS (упрощённая) */
-    .sos-modal-text {
-      font-size: 13px;
+    .panel-close:hover {
       color: #e5e7eb;
-      margin-bottom: 8px;
-    }
-    .sos-badge {
-      display: inline-block;
-      margin: 3px 3px 0 0;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(248, 113, 113, 0.7);
-      color: #fecaca;
-      font-size: 12px;
     }
 
-    @media (max-width: 720px) {
-      .top-bar {
-        border-radius: 18px;
+    .panel-body {
+      padding: 10px 12px;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+
+    .panel-section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #9ca3af;
+      margin: 8px 0 4px;
+    }
+
+    .place-card {
+      margin-top: 6px;
+      padding: 8px 9px;
+      border-radius: 12px;
+      background: #020617;
+      border: 1px solid #111827;
+      cursor: pointer;
+      transition: 0.18s;
+    }
+    .place-card:hover {
+      border-color: #38bdf8;
+      background: #020617;
+    }
+    .place-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .place-sub {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 2px;
+    }
+    .place-tag {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid #4b5563;
+      font-size: 10px;
+      color: #d1d5db;
+      margin-right: 4px;
+    }
+
+    /* ПРАВАЯ ШТОРКА — АККАУНТ */
+    .profile-row {
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .profile-label {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 3px;
+    }
+    .profile-box {
+      padding: 7px 9px;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid #111827;
+    }
+
+    .profile-actions {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .profile-button {
+      border-radius: 8px;
+      padding: 7px 9px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: left;
+    }
+    .profile-button.primary {
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      border: none;
+      color: #020617;
+      font-weight: 600;
+      text-align: center;
+    }
+    .profile-button:hover {
+      border-color: #38bdf8;
+    }
+
+    /* Полупрозрачная подложка при открытой шторке */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 3;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease-out;
+    }
+    .backdrop.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 800px) {
+      .floating-top {
+        top: 74px;
       }
-      .logo-text span:first-child {
-        font-size: 11px;
+      .side-panel.left {
+        width: 100%;
       }
-      .top-bar-right .btn span.text {
+      .side-panel.right {
+        width: 85%;
+      }
+      .topbar {
+        gap: 4px;
+      }
+      .brand-pill {
         display: none;
       }
-      .top-bar-right .btn {
-        padding-inline: 10px;
+      .pill-btn span.text {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
 
-<!-- КАРТА -->
 <div id="map"></div>
 
-<!-- ВЕРХНЯЯ ПАНЕЛЬ -->
-<div class="top-bar">
-  <div class="logo-block">
-    <div class="logo-mark"></div>
-    <div class="logo-text">
-      <span>SIYAEM KOREA</span>
-      <span>Карта русскоязычных мест</span>
+<!-- ПОЛУПРОЗРАЧНЫЙ ФОН ДЛЯ ШТОРОК -->
+<div class="backdrop" id="backdrop"></div>
+
+<!-- ВЕРХНЯЯ ПАНЕЛЬ, как у Яндекс -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="icon-btn" id="btnMenu" title="Меню">
+      ☰
+    </button>
+    <div class="brand-pill">
+      <div class="brand-logo"></div>
+      <div class="brand-text">
+        <strong>SIYAEM KOREA</strong>
+        <span>Карта русскоязычных мест</span>
+      </div>
     </div>
   </div>
 
-  <div class="top-bar-right">
-    <button class="btn btn-sos" id="sosBtn">
+  <div class="topbar-center">
+    <div class="search-box">
+      <div class="search-icon">🔍</div>
+      <input class="search-input" placeholder="Поиск места, адреса или категории…" />
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <button class="pill-btn sos" id="btnSos">
       <span class="icon">🚨</span><span class="text">SOS</span>
     </button>
-    <button class="btn" id="partnerBtn">
-      <span class="icon">🤝</span><span class="text">Партнёрам</span>
+    <button class="pill-btn" id="btnTheme">
+      <span class="icon">🌓</span><span class="text">Тема</span>
     </button>
-    <button class="btn btn-primary" id="loginBtn">
-      <span class="icon">👤</span><span class="text">Личный кабинет</span>
+    <button class="pill-btn primary" id="btnAccount">
+      <span class="icon">👤</span><span class="text">Аккаунт</span>
     </button>
   </div>
 </div>
 
-<!-- ПЛАВАЮЩАЯ ПАНЕЛЬ: ПОИСК + КАТЕГОРИИ + ФИЛЬТРЫ -->
-<div class="floating-panel">
-  <!-- Поиск -->
-  <div class="search-box">
-    <div class="search-icon">🔍</div>
-    <input type="text" class="search-input" placeholder="Поиск мест и адресов..." />
-  </div>
+<!-- Плавающая панель категорий и фильтров -->
+<div class="floating-top">
+  <div class="floating-inner">
+    <div class="categories-row">
+      <div class="cat active">
+        <div class="cat-icon">🍽</div>
+        <div class="cat-name">Где поесть</div>
+      </div>
+      <div class="cat">
+        <div class="cat-icon">🛒</div>
+        <div class="cat-name">Продукты</div>
+      </div>
+      <div class="cat">
+        <div class="cat-icon">☕</div>
+        <div class="cat-name">Кафе</div>
+      </div>
+      <div class="cat">
+        <div class="cat-icon">🔧</div>
+        <div class="cat-name">Автосервис</div>
+      </div>
+      <div class="cat">
+        <div class="cat-icon">💈</div>
+        <div class="cat-name">Салоны</div>
+      </div>
+      <div class="cat">
+        <div class="cat-icon">🍔</div>
+        <div class="cat-name">Фастфуд</div>
+      </div>
+      <div class="cat">
+        <div class="cat-icon">🎮</div>
+        <div class="cat-name">Развлечения</div>
+      </div>
+    </div>
 
-  <!-- Категории (как у Яндекс) -->
-  <div class="categories-yn">
-    <div class="cat" data-category="food">
-      <div class="cat-icon">🍽</div>
-      <div class="cat-name">Где поесть</div>
+    <div class="filters-row">
+      <div class="filter-chip active">Открыто сейчас</div>
+      <div class="filter-chip">4.5+ рейтинг</div>
+      <div class="filter-chip">Подарки / акции</div>
+      <div class="filter-chip">Русскоязычный персонал</div>
+      <div class="filter-chip">Есть парковка</div>
     </div>
-    <div class="cat" data-category="market">
-      <div class="cat-icon">🛒</div>
-      <div class="cat-name">Продукты</div>
-    </div>
-    <div class="cat" data-category="cafe">
-      <div class="cat-icon">☕</div>
-      <div class="cat-name">Кафе</div>
-    </div>
-    <div class="cat" data-category="autoservice">
-      <div class="cat-icon">🔧</div>
-      <div class="cat-name">Автосервис</div>
-    </div>
-    <div class="cat" data-category="beauty">
-      <div class="cat-icon">💈</div>
-      <div class="cat-name">Салоны</div>
-    </div>
-    <div class="cat" data-category="fastfood">
-      <div class="cat-icon">🍔</div>
-      <div class="cat-name">Фастфуд</div>
-    </div>
-    <div class="cat" data-category="fun">
-      <div class="cat-icon">🎮</div>
-      <div class="cat-name">Развлечения</div>
-    </div>
-  </div>
-
-  <!-- Фильтры -->
-  <div class="filter-bar">
-    <div class="filter" data-filter="open">Открыто сейчас</div>
-    <div class="filter" data-filter="rating">4.5+ рейтинг</div>
-    <div class="filter" data-filter="gift">Подарки</div>
-    <div class="filter" data-filter="ru">Русскоязычный</div>
-    <div class="filter" data-filter="parking">Парковка</div>
   </div>
 </div>
 
-<!-- МОДАЛКА ЛОГИНА -->
-<div class="modal-backdrop" id="loginModal">
-  <div class="modal">
-    <h3>Вход / регистрация Siyaem ID</h3>
-    <div class="modal-label">Email</div>
-    <input id="authEmail" class="modal-input" type="email" placeholder="you@example.com" />
-    <div class="modal-label">Пароль</div>
-    <input id="authPassword" class="modal-input" type="password" placeholder="минимум 6 символов" />
-    <div class="modal-buttons">
-      <button class="modal-btn outline" id="registerBtn">Регистрация</button>
-      <button class="modal-btn primary" id="signInBtn">Войти</button>
+<!-- ЛЕВАЯ ШТОРКА: список мест, как у Яндекс -->
+<div class="side-panel left" id="leftPanel">
+  <div class="panel-header">
+    <div>
+      <div class="panel-header-title">Места рядом</div>
+      <div class="panel-header-sub">Только проверенные русскоязычные заведения</div>
     </div>
-    <div id="authStatus" class="modal-status"></div>
-    <div class="modal-close-link" id="closeLoginModal">Закрыть</div>
+    <div class="panel-close" data-close="left">&times;</div>
+  </div>
+  <div class="panel-body">
+    <div class="panel-section-title">Еда и напитки</div>
+
+    <div class="place-card">
+      <div class="place-title">Mr. Cook — корейская столовая</div>
+      <div class="place-sub">Асан, Дунпо | Русскоязычный персонал</div>
+      <div class="place-sub">★ 4.8 · Открыто до 22:00</div>
+      <div class="place-tag">Где поесть</div>
+      <div class="place-tag">Домашняя кухня</div>
+    </div>
+
+    <div class="place-card">
+      <div class="place-title">Сибирь Market</div>
+      <div class="place-sub">Чхонан | Российские продукты</div>
+      <div class="place-sub">★ 4.7 · Закрыто, откроется в 10:00</div>
+      <div class="place-tag">Продукты</div>
+      <div class="place-tag">Русский магазин</div>
+    </div>
+
+    <div class="panel-section-title">Авто и сервис</div>
+
+    <div class="place-card">
+      <div class="place-title">Prestige Detailing</div>
+      <div class="place-sub">Асан | детейлинг, мойка, керамика</div>
+      <div class="place-sub">★ 5.0 · Только по записи</div>
+      <div class="place-tag">Автосервис</div>
+      <div class="place-tag">Русскоязычный</div>
+    </div>
+
+    <div class="panel-section-title">Образ жизни</div>
+
+    <div class="place-card">
+      <div class="place-title">Tattoo Studio Siyaem</div>
+      <div class="place-sub">Сеул | авторские тату</div>
+      <div class="place-sub">★ 4.9 · Свободно завтра</div>
+      <div class="place-tag">Развлечения</div>
+      <div class="place-tag">Тату</div>
+    </div>
+
+    <div style="height: 24px;"></div>
   </div>
 </div>
 
-<!-- МОДАЛКА SOS -->
-<div class="modal-backdrop" id="sosModal">
-  <div class="modal">
-    <h3>Экстренная помощь Siyaem Korea</h3>
-    <div class="sos-modal-text">
-      Используйте SOS только при реальной угрозе жизни или серьёзной проблеме.
+<!-- ПРАВАЯ ШТОРКА: аккаунт -->
+<div class="side-panel right" id="rightPanel">
+  <div class="panel-header">
+    <div>
+      <div class="panel-header-title">Аккаунт Siyaem</div>
+      <div class="panel-header-sub">В будущем здесь будет личный кабинет</div>
     </div>
-    <div class="sos-modal-text">
-      <span class="sos-badge">🚓 Полиция — 112</span>
-      <span class="sos-badge">🚑 Скорая / пожарные — 119</span>
+    <div class="panel-close" data-close="right">&times;</div>
+  </div>
+  <div class="panel-body">
+    <div class="profile-row">
+      <div class="profile-label">Статус</div>
+      <div class="profile-box">
+        Гость · авторизация по email / Kakao будет добавлена позже.
+      </div>
     </div>
-    <div class="sos-modal-text" style="margin-top:10px;">
-      В будущем здесь появится список сценариев: авария с травмами, потеря ребёнка, потеря документов, больница и т.д., и твои контакты для помощи.
+
+    <div class="profile-actions">
+      <button class="profile-button primary">Войти / Зарегистрироваться</button>
+      <button class="profile-button">Стать партнёром (добавить заведение)</button>
+      <button class="profile-button">Мои избранные места</button>
+      <button class="profile-button">Настройки уведомлений</button>
     </div>
-    <div class="modal-close-link" id="closeSosModal">Закрыть</div>
+
+    <div class="panel-section-title" style="margin-top:12px;">О проекте</div>
+    <p style="font-size:12px; color:#9ca3af; line-height:1.4;">
+      Siyaem Korea — сервис для русскоязычных в Южной Корее: проверенные кафе, салоны,
+      автосервисы и офисы помощи. Все точки модератор проверяет лично.
+    </p>
   </div>
 </div>
 
 <script>
-  // === Firebase init ===
-  const firebaseConfig = {
-    apiKey: "AIzaSyBdB2mFsj2hVrGCIdy7y4QDK9FcN0_4leA",
-    authDomain: "siyaem-639f5.firebaseapp.com",
-    projectId: "siyaem-639f5",
-    storageBucket: "siyaem-639f5.firebasestorage.app",
-    messagingSenderId: "613345654072",
-    appId: "1:613345654072:web:db5b0156f0112af879bdcd",
-    measurementId: "G-ETHGLXFMNZ"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
+  const leftPanel = document.getElementById('leftPanel');
+  const rightPanel = document.getElementById('rightPanel');
+  const backdrop = document.getElementById('backdrop');
 
-  // === Kakao Map init ===
-  let map;
-  function initMap() {
-    const container = document.getElementById("map");
-    const options = {
-      center: new kakao.maps.LatLng(36.5, 127.8), // центр Южной Кореи
-      level: 7
-    };
-    map = new kakao.maps.Map(container, options);
-
-    // Ограничение в рамках Кореи (примерно)
-    const sw = new kakao.maps.LatLng(33.0, 124.0);
-    const ne = new kakao.maps.LatLng(39.5, 132.5);
-    const bounds = new kakao.maps.LatLngBounds(sw, ne);
-    kakao.maps.event.addListener(map, "dragend", function () {
-      if (!bounds.contain(map.getCenter())) {
-        map.setCenter(new kakao.maps.LatLng(36.5, 127.8));
-      }
-    });
-
-    // TODO: позже добавим маркеры русскоязычных мест
+  function openPanel(side) {
+    if (side === 'left') leftPanel.classList.add('open');
+    if (side === 'right') rightPanel.classList.add('open');
+    backdrop.classList.add('visible');
   }
 
-  if (window.kakao && window.kakao.maps) {
-    kakao.maps.load(initMap);
+  function closePanels() {
+    leftPanel.classList.remove('open');
+    rightPanel.classList.remove('open');
+    backdrop.classList.remove('visible');
   }
 
-  // === Авторизация (логин/регистрация) ===
-  const loginBtn = document.getElementById("loginBtn");
-  const loginModal = document.getElementById("loginModal");
-  const closeLoginModal = document.getElementById("closeLoginModal");
-  const registerBtn = document.getElementById("registerBtn");
-  const signInBtn = document.getElementById("signInBtn");
-  const authStatusEl = document.getElementById("authStatus");
+  document.getElementById('btnMenu').addEventListener('click', () => openPanel('left'));
+  document.getElementById('btnAccount').addEventListener('click', () => openPanel('right'));
 
-  loginBtn.addEventListener("click", () => {
-    authStatusEl.textContent = "";
-    loginModal.classList.add("active");
+  document.querySelectorAll('.panel-close').forEach(btn => {
+    btn.addEventListener('click', closePanels);
   });
+  backdrop.addEventListener('click', closePanels);
 
-  closeLoginModal.addEventListener("click", () => {
-    loginModal.classList.remove("active");
-  });
-
-  registerBtn.addEventListener("click", async () => {
-    const email = document.getElementById("authEmail").value.trim();
-    const password = document.getElementById("authPassword").value.trim();
-    authStatusEl.textContent = "Регистрируем...";
-    try {
-      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-      authStatusEl.textContent = "Успешно! Аккаунт создан: " + user.email;
-    } catch (error) {
-      authStatusEl.textContent = "Ошибка: " + (error.message || error.code);
-    }
-  });
-
-  signInBtn.addEventListener("click", async () => {
-    const email = document.getElementById("authEmail").value.trim();
-    const password = document.getElementById("authPassword").value.trim();
-    authStatusEl.textContent = "Входим...";
-    try {
-      const userCredential = await auth.signInWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-      authStatusEl.textContent = "Вход выполнен: " + user.email;
-      setTimeout(() => {
-        loginModal.classList.remove("active");
-        alert("Добро пожаловать, " + user.email + "!\nПозже здесь будет личный кабинет с избранным и подарками.");
-      }, 700);
-    } catch (error) {
-      authStatusEl.textContent = "Ошибка: " + (error.message || error.code);
-    }
-  });
-
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      loginBtn.textContent = "Личный кабинет (" + (user.email || "профиль") + ")";
-    } else {
-      loginBtn.textContent = "Личный кабинет";
-    }
-  });
-
-  // === SOS modal ===
-  const sosBtn = document.getElementById("sosBtn");
-  const sosModal = document.getElementById("sosModal");
-  const closeSosModal = document.getElementById("closeSosModal");
-
-  sosBtn.addEventListener("click", () => {
-    sosModal.classList.add("active");
-  });
-  closeSosModal.addEventListener("click", () => {
-    sosModal.classList.remove("active");
-  });
-
-  // Категории / фильтры — пока только визуально (логика фильтрации позже)
-  document.querySelectorAll(".cat").forEach((c) => {
-    c.addEventListener("click", () => {
-      document.querySelectorAll(".cat").forEach((x) => x.classList.remove("active"));
-      c.classList.add("active");
-      // TODO: фильтрация мест по категории
+  // визуальное переключение категорий/фильтров
+  document.querySelectorAll('.cat').forEach(cat => {
+    cat.addEventListener('click', () => {
+      document.querySelectorAll('.cat').forEach(c => c.classList.remove('active'));
+      cat.classList.add('active');
     });
   });
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('active'));
+  });
 
-  document.querySelectorAll(".filter").forEach((f) => {
-    f.addEventListener("click", () => {
-      f.classList.toggle("active");
-      // TODO: применять фильтры к списку мест
-    });
+  // SOS пока просто показывает alert (потом привяжем окно)
+  document.getElementById('btnSos').addEventListener('click', () => {
+    alert('SOS: сюда потом подключим экстренную помощь — полиция, скорая, помощь переводчика и т.д.');
   });
 </script>
 </body>
