@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>SiyaEm Korea Map</title>
+  <title>Siyaem Korea Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -16,22 +16,21 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #020617;
       color: #e5e7eb;
-      overflow: hidden; /* чтобы на мобиле не дёргало */
+      overflow: hidden;
     }
 
-    /* ФОН (вместо карты — пока градиент) */
+    /* КАРТА (пока фон) */
     #map {
       position: fixed;
       inset: 0;
-      background:
-        radial-gradient(circle at 10% 0%, #1e293b, #020617 55%, #020617 100%);
+      background: radial-gradient(circle at 30% 20%, #1f2937, #020617 60%, #000 100%);
       background-image:
-        radial-gradient(circle at 20% 30%, rgba(99,102,241,0.22), transparent 65%),
-        radial-gradient(circle at 80% 70%, rgba(56,189,248,0.18), transparent 65%);
+        radial-gradient(circle at 40% 30%, rgba(59,130,246,0.25), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(45,212,191,0.25), transparent 60%);
       z-index: 1;
     }
 
-    /* ВЕРХНЯЯ ПАНЕЛЬ, как у Яндекс */
+    /* ВЕРХНЯЯ ПАНЕЛЬ (как у Яндекс) */
     .topbar {
       position: fixed;
       top: 8px;
@@ -66,7 +65,6 @@
       justify-content: flex-end;
     }
 
-    /* Кнопки в шапке */
     .icon-btn {
       min-width: 40px;
       height: 40px;
@@ -90,7 +88,7 @@
       height: 40px;
       border-radius: 999px;
       padding: 0 14px 0 6px;
-      background: linear-gradient(135deg, #020617, #020617);
+      background: linear-gradient(135deg, #111827, #020617);
       border: 1px solid rgba(148,163,184,0.6);
       display: flex;
       align-items: center;
@@ -122,7 +120,7 @@
       color: #9ca3af;
     }
 
-    /* Поисковая строка, как у Яндекс */
+    /* Поисковая строка */
     .search-box {
       width: 100%;
       max-width: 640px;
@@ -171,11 +169,11 @@
       font-size: 15px;
     }
     .pill-btn.primary {
-      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
       border: none;
       color: #020617;
       font-weight: 600;
-      box-shadow: 0 10px 30px rgba(59,130,246,0.55);
+      box-shadow: 0 10px 30px rgba(34,197,94,0.6);
     }
     .pill-btn.sos {
       background: radial-gradient(circle at 30% 20%, #fecaca, #ef4444 60%, #7f1d1d 100%);
@@ -196,56 +194,13 @@
       filter: brightness(1.08);
     }
 
-    /* Плавающая панель (категории + текст) */
-    .floating-top {
-      position: fixed;
-      top: 80px;
-      left: 12px;               /* как у Яндекс — прижато к левому краю */
-      transform: none;
-      width: min(780px, 100% - 24px);
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .floating-inner {
-      pointer-events: auto;
-      background: rgba(15,23,42,0.96);
-      border-radius: 18px;
-      border: 1px solid rgba(148,163,184,0.45);
-      padding: 10px 14px 10px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.8);
-    }
-
-    /* Заголовок SiyaEm по центру */
-    .hero-title {
-      text-align: center;
-      margin-bottom: 4px;
-    }
-    .hero-main {
-      font-size: 22px;
-      font-weight: 700;
-      color: #38bdf8;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .hero-sub {
-      margin-top: 3px;
-      font-size: 13px;
-      color: #e5e7eb;
-    }
-    .hero-sub-small {
-      margin-top: 2px;
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
+    /* Категории + фильтры (теперь только внутри шторки, но стиль оставляем) */
     .categories-row {
       display: flex;
       gap: 14px;
-      padding: 8px 2px 6px;
+      padding: 6px 2px 6px;
       overflow-x: auto;
       scrollbar-width: none;
-      justify-content: flex-start; /* Влево */
     }
     .categories-row::-webkit-scrollbar {
       display: none;
@@ -262,7 +217,7 @@
       height: 52px;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 20%, #111827, #020617);
-      border: 1px solid #4f46e5;
+      border: 1px solid #38bdf8;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -313,11 +268,12 @@
       color: #e5e7eb;
     }
 
-    /* ЛЕВАЯ ШТОРКА */
+    /* Шторки */
     .side-panel {
       position: fixed;
       top: 0;
       bottom: 0;
+      width: 360px;
       background: rgba(15,23,42,0.98);
       box-shadow: 0 0 40px rgba(0,0,0,0.9);
       z-index: 4;
@@ -327,7 +283,6 @@
     }
     .side-panel.left {
       left: 0;
-      width: 360px;
       transform: translateX(-100%);
       border-right: 1px solid rgba(31,41,55,0.9);
     }
@@ -370,7 +325,7 @@
     }
 
     .panel-body {
-      padding: 10px 12px;
+      padding: 10px 12px 14px;
       overflow-y: auto;
       font-size: 13px;
     }
@@ -380,7 +335,7 @@
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: #9ca3af;
-      margin: 8px 0 4px;
+      margin: 10px 0 4px;
     }
 
     .place-card {
@@ -416,31 +371,19 @@
       margin-right: 4px;
     }
 
-    /* ПРАВАЯ ШТОРКА — АККАУНТ */
-    .profile-row {
-      font-size: 13px;
-      margin-top: 8px;
+    /* Правая шторка / профиль */
+    .profile-section {
+      margin-top: 18px;
     }
-    .profile-label {
+    .profile-section-title {
       font-size: 11px;
-      color: #9ca3af;
-      margin-bottom: 3px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 6px;
     }
-    .profile-box {
-      padding: 7px 9px;
-      background: #020617;
-      border-radius: 10px;
-      border: 1px solid #111827;
-    }
-
-    .profile-actions {
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
     .profile-button {
+      width: 100%;
       border-radius: 8px;
       padding: 7px 9px;
       border: 1px solid #1f2937;
@@ -451,7 +394,7 @@
       text-align: left;
     }
     .profile-button.primary {
-      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
       border: none;
       color: #020617;
       font-weight: 600;
@@ -461,7 +404,7 @@
       border-color: #38bdf8;
     }
 
-    /* Полупрозрачная подложка при открытых шторках */
+    /* Подложка под шторками */
     .backdrop {
       position: fixed;
       inset: 0;
@@ -477,11 +420,6 @@
     }
 
     @media (max-width: 800px) {
-      .floating-top {
-        top: 74px;
-        left: 8px;
-        width: calc(100% - 16px);
-      }
       .side-panel.left {
         width: 100%;
       }
@@ -504,7 +442,6 @@
 
 <div id="map"></div>
 
-<!-- ПОДЛОЖКА ДЛЯ ШТОРОК -->
 <div class="backdrop" id="backdrop"></div>
 
 <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
@@ -542,20 +479,22 @@
   </div>
 </div>
 
-<!-- Плавающая панель -->
-<div class="floating-top">
-  <div class="floating-inner">
-
-    <!-- Заголовок SiyaEm -->
-    <div class="hero-title">
-      <div class="hero-main">SiyaEm</div>
-      <div class="hero-sub">Центр помощи для русскоязычных в Южной Корее</div>
-      <div class="hero-sub-small">
-        SiyaEm — надёжный помощник в поиске проверенных партнёров, сервисов и мест для жизни.
+<!-- ЛЕВАЯ ШТОРКА: ЛОГО + КАТЕГОРИИ + ФИЛЬТРЫ + МЕСТА -->
+<div class="side-panel left" id="leftPanel">
+  <div class="panel-header">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div class="brand-logo"></div>
+      <div>
+        <div class="panel-header-title">Siyaem Korea</div>
+        <div class="panel-header-sub">Русскоязычные места в Южной Корее</div>
       </div>
     </div>
+    <div class="panel-close" data-close="left">&times;</div>
+  </div>
 
-    <!-- Категории -->
+  <div class="panel-body">
+
+    <div class="panel-section-title">Категории</div>
     <div class="categories-row">
       <div class="cat active">
         <div class="cat-icon">🍽</div>
@@ -587,7 +526,7 @@
       </div>
     </div>
 
-    <!-- Фильтры -->
+    <div class="panel-section-title">Фильтры</div>
     <div class="filters-row">
       <div class="filter-chip active">Открыто сейчас</div>
       <div class="filter-chip">4.5+ рейтинг</div>
@@ -595,20 +534,8 @@
       <div class="filter-chip">Русскоязычный персонал</div>
       <div class="filter-chip">Есть парковка</div>
     </div>
-  </div>
-</div>
 
-<!-- ЛЕВАЯ ШТОРКА: список мест -->
-<div class="side-panel left" id="leftPanel">
-  <div class="panel-header">
-    <div>
-      <div class="panel-header-title">Места рядом</div>
-      <div class="panel-header-sub">Только проверенные русскоязычные заведения</div>
-    </div>
-    <div class="panel-close" data-close="left">&times;</div>
-  </div>
-  <div class="panel-body">
-    <div class="panel-section-title">Еда и напитки</div>
+    <div class="panel-section-title">Места рядом</div>
 
     <div class="place-card">
       <div class="place-title">Mr. Cook — корейская столовая</div>
@@ -626,8 +553,6 @@
       <div class="place-tag">Русский магазин</div>
     </div>
 
-    <div class="panel-section-title">Авто и сервис</div>
-
     <div class="place-card">
       <div class="place-title">Prestige Detailing</div>
       <div class="place-sub">Асан | детейлинг, мойка, керамика</div>
@@ -635,8 +560,6 @@
       <div class="place-tag">Автосервис</div>
       <div class="place-tag">Русскоязычный</div>
     </div>
-
-    <div class="panel-section-title">Образ жизни</div>
 
     <div class="place-card">
       <div class="place-title">Tattoo Studio Siyaem</div>
@@ -650,35 +573,63 @@
   </div>
 </div>
 
-<!-- ПРАВАЯ ШТОРКА: аккаунт -->
+<!-- ПРАВАЯ ШТОРКА: ЛИЧНЫЙ КАБИНЕТ -->
 <div class="side-panel right" id="rightPanel">
   <div class="panel-header">
-    <div>
-      <div class="panel-header-title">Аккаунт SiyaEm</div>
-      <div class="panel-header-sub">Здесь позже будет личный кабинет</div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="
+        width:42px; height:42px;
+        border-radius:50%;
+        background:#1f2937;
+        display:flex; align-items:center; justify-content:center;
+        font-size:20px; color:#9ca3af;">
+        👤
+      </div>
+      <div>
+        <div class="panel-header-title">Гость</div>
+        <div class="panel-header-sub">Войдите, чтобы сохранять места</div>
+      </div>
     </div>
     <div class="panel-close" data-close="right">&times;</div>
   </div>
+
   <div class="panel-body">
-    <div class="profile-row">
-      <div class="profile-label">Статус</div>
-      <div class="profile-box">
-        Гость · авторизация по email / Kakao будет добавлена позже.
-      </div>
+
+    <button class="profile-button primary" style="margin-bottom:12px;">
+      Войти / Зарегистрироваться
+    </button>
+
+    <div class="profile-section">
+      <div class="profile-section-title">Профиль</div>
+
+      <button class="profile-button">Мои данные</button>
+      <button class="profile-button">Мои места</button>
+      <button class="profile-button">Избранное</button>
+      <button class="profile-button">История просмотренных</button>
     </div>
 
-    <div class="profile-actions">
-      <button class="profile-button primary">Войти / Зарегистрироваться</button>
-      <button class="profile-button">Стать партнёром (добавить заведение)</button>
-      <button class="profile-button">Мои избранные места</button>
-      <button class="profile-button">Настройки уведомлений</button>
+    <div class="profile-section">
+      <div class="profile-section-title">Сервис</div>
+
+      <button class="profile-button">Стать партнёром</button>
+      <button class="profile-button">Мои заведения</button>
+      <button class="profile-button">Поддержка</button>
     </div>
 
-    <div class="panel-section-title" style="margin-top:12px;">О проекте</div>
-    <p style="font-size:12px; color:#9ca3af; line-height:1.4;">
-      SiyaEm Korea — сервис для русскоязычных в Южной Корее: проверенные кафе, салоны,
-      автосервисы, офисы помощи и другие сервисы. Все точки модератор проверяет лично.
-    </p>
+    <div class="profile-section">
+      <div class="profile-section-title">О приложении</div>
+      
+      <button class="profile-button">О Siyaem Korea</button>
+      <button class="profile-button">Версия 0.1 (beta)</button>
+    </div>
+
+    <div class="profile-section">
+      <button class="profile-button" style="border-color:#7f1d1d; color:#fca5a5;">
+        Выйти
+      </button>
+    </div>
+
+    <div style="height:30px;"></div>
   </div>
 </div>
 
@@ -707,22 +658,21 @@
   });
   backdrop.addEventListener('click', closePanels);
 
-  // Переключение категорий
+  // категории внутри шторки
   document.querySelectorAll('.cat').forEach(cat => {
     cat.addEventListener('click', () => {
       document.querySelectorAll('.cat').forEach(c => c.classList.remove('active'));
       cat.classList.add('active');
     });
   });
-
-  // Переключение фильтров
+  // фильтры внутри шторки
   document.querySelectorAll('.filter-chip').forEach(chip => {
     chip.addEventListener('click', () => chip.classList.toggle('active'));
   });
 
-  // SOS пока просто показывает сообщение
+  // SOS пока просто алерт
   document.getElementById('btnSos').addEventListener('click', () => {
-    alert('SOS: сюда позже подключим экстренную помощь — полиция, скорая, переводчик и т.д.');
+    alert('SOS: позже сюда подключим реальную экстренную помощь — полиция, скорая, переводчик и т.д.');
   });
 </script>
 </body>
