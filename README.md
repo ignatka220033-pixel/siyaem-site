@@ -19,46 +19,43 @@
     }
   </style>
 
-  <!-- Подключаем Kakao Maps SDK
-       ВАЖНО: тут должен быть JavaScript Key -->
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=f63924b38de08f3162d1ea0a73766b9a"></script>
+  <!-- НОВЫЙ JavaScript KEY -->
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5bb3be265d3f64faa0ba9d0b6928b2fb"></script>
 </head>
 <body>
 
-  <!-- Контейнер для карты -->
   <div id="map"></div>
 
-  <!-- Наш код, выполняется после подключения SDK -->
   <script>
-    // Этот код выполнится, когда HTML уже загружен
-    window.onload = function () {
-      // Проверим, что объект kakao существует
-      if (!window.kakao || !kakao.maps) {
-        console.error("Kakao SDK не загрузился");
+    window.addEventListener('load', function () {
+      console.log("window loaded");
+
+      if (!window.kakao) {
+        console.error("window.kakao отсутствует. SDK Kakao не загрузился. Проверь домен и appkey.");
+        return;
+      }
+      if (!window.kakao.maps) {
+        console.error("window.kakao есть, но kakao.maps нет. Проверь, что включён продукт Kakao Map.");
         return;
       }
 
-      // Элемент карты
       var container = document.getElementById('map');
 
-      // Центр карты — примерно центр Южной Кореи
       var options = {
-        center: new kakao.maps.LatLng(36.5, 127.8),
+        center: new window.kakao.maps.LatLng(36.5, 127.8),
         level: 12
       };
 
-      // Создаём карту
-      var map = new kakao.maps.Map(container, options);
+      var map = new window.kakao.maps.Map(container, options);
 
-      // Тестовый маркер (примерно Асан/Чхонан)
-      var markerPosition = new kakao.maps.LatLng(36.78, 127.02);
-      var marker = new kakao.maps.Marker({
+      var markerPosition = new window.kakao.maps.LatLng(36.78, 127.02);
+      var marker = new window.kakao.maps.Marker({
         position: markerPosition
       });
       marker.setMap(map);
 
       console.log("Карта успешно создана");
-    };
+    });
   </script>
 
 </body>
