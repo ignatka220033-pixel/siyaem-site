@@ -17,31 +17,36 @@
       margin: 0;
       padding: 0;
       height: 100%;
+      width: 100%;
     }
 
     body {
       font-family: Arial, sans-serif;
       background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000 100%);
       color: #e5e7eb;
+      overflow: hidden; /* чтобы не было прокрутки вокруг карты */
     }
 
     .app {
       height: 100vh;
+      width: 100vw;
       display: flex;
       flex-direction: column;
-      padding: 8px;
-      gap: 8px;
     }
 
     /* ВЕРХНЯЯ ПАНЕЛЬ */
     .top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      margin: 8px;
       padding: 8px 12px;
       border-radius: 999px;
       background: rgba(15, 23, 42, 0.96);
       box-shadow: 0 0 40px rgba(15, 23, 42, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      z-index: 40;
+      position: relative;
     }
 
     .logo-block {
@@ -109,9 +114,10 @@
       font-weight: 500;
     }
 
-    /* КОНТЕЙНЕР КАРТЫ */
+    /* КОНТЕЙНЕР КАРТЫ НА ВЕСЬ ЭКРАН */
     .map-wrapper {
       flex: 1;
+      margin: 0 8px 8px 8px;
       border-radius: 20px;
       overflow: hidden;
       position: relative;
@@ -124,7 +130,7 @@
       height: 100%;
     }
 
-    /* КНОПКА ОТКРЫТИЯ ЛЕВОЙ ПАНЕЛИ */
+    /* КНОПКИ ОТКРЫТИЯ ПАНЕЛЕЙ */
     .floating-toggle {
       position: absolute;
       top: 50%;
@@ -159,7 +165,7 @@
       background: #22c55e;
     }
 
-    /* СКРЫВАЮЩИЕСЯ ПАНЕЛИ */
+    /* ПАНЕЛИ */
     .side-panel {
       position: absolute;
       top: 0;
@@ -227,7 +233,7 @@
       justify-content: center;
     }
 
-    /* ЛЕВАЯ ПАНЕЛЬ – МЕСТА */
+    /* ЛЕВАЯ ПАНЕЛЬ: МЕСТА */
     .filter-row {
       display: flex;
       flex-wrap: wrap;
@@ -290,7 +296,7 @@
       color: #d1d5db;
     }
 
-    /* ПРАВАЯ ПАНЕЛЬ – АККАУНТ */
+    /* ПРАВАЯ ПАНЕЛЬ: АККАУНТ */
     .account-body {
       flex: 1;
       display: flex;
@@ -345,17 +351,16 @@
     @media (max-width: 768px) {
       .top-bar {
         flex-wrap: wrap;
-        gap: 6px;
         border-radius: 16px;
       }
       .top-center {
         display: none;
       }
       .map-wrapper {
-        border-radius: 16px;
+        margin: 0;
+        border-radius: 0;
       }
     }
-
   </style>
 </head>
 <body>
@@ -375,20 +380,16 @@
     </div>
 
     <div class="top-actions">
-      <button class="pill-btn sos">
-        SOS — экстренная помощь
-      </button>
-      <button id="accountTopBtn" class="pill-btn account">
-        Аккаунт
-      </button>
+      <button class="pill-btn sos">SOS — экстренная помощь</button>
+      <button id="accountTopBtn" class="pill-btn account">Аккаунт</button>
     </div>
   </header>
 
-  <!-- КАРТА + ПАНЕЛИ -->
+  <!-- КАРТА НА ВЕСЬ ОСТАВШИЙСЯ ЭКРАН -->
   <div class="map-wrapper" id="mapWrapper">
     <div id="map"></div>
 
-    <!-- Кнопки-свитчеры -->
+    <!-- Кнопки открытия панелей -->
     <button id="leftToggle" class="floating-toggle left">
       <span class="dot"></span>
       Места
@@ -398,7 +399,7 @@
       Аккаунт
     </button>
 
-    <!-- ЛЕВАЯ ПАНЕЛЬ МЕСТ -->
+    <!-- ЛЕВАЯ ПАНЕЛЬ -->
     <aside id="leftPanel" class="side-panel left">
       <div class="side-panel-header">
         <div>
@@ -450,7 +451,7 @@
       </div>
     </aside>
 
-    <!-- ПРАВАЯ ПАНЕЛЬ АККАУНТА -->
+    <!-- ПРАВАЯ ПАНЕЛЬ -->
     <aside id="rightPanel" class="side-panel right">
       <div class="side-panel-header">
         <div>
