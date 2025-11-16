@@ -23,15 +23,23 @@
     body {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: 12px;
+      padding: 12px 16px;
       gap: 10px;
+    }
+
+    /* ОБЩАЯ ШИРИНА – почти на весь экран */
+    .container-wide {
+      width: 100%;
+      max-width: 1600px; /* можно 1800, если захочешь ещё шире */
+      margin: 0 auto;
     }
 
     /* ШАПКА */
     .header {
-      width: 100%;
-      max-width: 1200px;
+      composes: container-wide;
+    }
+
+    .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -107,15 +115,17 @@
 
     /* ПОИСК */
     .search-row {
-      width: 100%;
-      max-width: 1200px;
+      composes: container-wide;
+    }
+
+    .search-row {
       display: flex;
       justify-content: center;
     }
 
     .search-input {
       width: 100%;
-      max-width: 640px;
+      max-width: 720px;
       border-radius: 999px;
       padding: 9px 16px;
       border: 1px solid rgba(148, 163, 184, 0.6);
@@ -130,21 +140,23 @@
       color: #6b7280;
     }
 
-    /* ОСНОВНОЙ ЛЕЙАУТ: СЛЕВА СПИСОК, СПРАВА КАРТА */
+    /* ОСНОВНОЙ ЛЕЙАУТ */
     .layout {
-      width: 100%;
-      max-width: 1200px;
+      composes: container-wide;
+    }
+
+    .layout {
       flex: 1;
       min-height: 0;
       display: flex;
-      gap: 10px;
-      height: calc(100vh - 130px);
+      gap: 12px;
+      height: calc(100vh - 140px); /* почти весь экран */
     }
 
     .sidebar {
-      width: 320px;
-      min-width: 260px;
-      max-width: 360px;
+      width: 380px;
+      min-width: 300px;
+      max-width: 420px;
       background: rgba(15, 23, 42, 0.96);
       border-radius: 20px;
       border: 1px solid rgba(148, 163, 184, 0.35);
@@ -309,7 +321,7 @@
 <body>
 
   <!-- ШАПКА -->
-  <header class="header">
+  <header class="header container-wide">
     <div class="logo-block">
       <div class="logo-circle"></div>
       <div>
@@ -325,7 +337,7 @@
   </header>
 
   <!-- ПОИСК (пока просто дизайн) -->
-  <div class="search-row">
+  <div class="search-row container-wide">
     <input
       class="search-input"
       type="text"
@@ -333,7 +345,7 @@
   </div>
 
   <!-- ОСНОВНАЯ ОБЛАСТЬ: СЛЕВА СПИСОК, СПРАВА КАРТА -->
-  <main class="layout">
+  <main class="layout container-wide">
     <!-- ЛЕВАЯ ПАНЕЛЬ -->
     <aside class="sidebar">
       <div class="sidebar-header">
@@ -365,7 +377,6 @@
   </main>
 
   <script>
-    // ===== ТЕСТОВЫЕ МЕСТА =====
     const PLACES = [
       {
         id: "1",
@@ -434,7 +445,6 @@
       );
     }
 
-    // ИНИЦИАЛИЗАЦИЯ ПО ЗАГРУЗКЕ СТРАНИЦЫ
     window.onload = function () {
       setStatus("Окно загружено, запускаем карту…");
 
@@ -456,7 +466,6 @@
       const sidebarList = document.getElementById("sidebar-list");
       sidebarList.innerHTML = "";
 
-      // Создаём маркеры + инфоокна + элементы списка
       PLACES.forEach((place, index) => {
         const position = new kakao.maps.LatLng(place.lat, place.lng);
 
@@ -479,7 +488,6 @@
         });
         infoWindowsById[place.id] = infoWindow;
 
-        // Элемент списка
         const item = document.createElement("div");
         item.className = "place-item";
         item.dataset.id = place.id;
@@ -491,7 +499,6 @@
           <div class="place-desc">${place.description}</div>
         `;
 
-        // Клик по элементу списка
         item.addEventListener("click", () => {
           const id = place.id;
           const marker = markersById[id];
@@ -512,7 +519,6 @@
         sidebarList.appendChild(item);
         listItemsById[place.id] = item;
 
-        // Клик по маркеру на карте
         kakao.maps.event.addListener(marker, "click", () => {
           const pos = new kakao.maps.LatLng(place.lat, place.lng);
           map.setCenter(pos);
@@ -523,12 +529,9 @@
 
           deactivateAllListItems();
           item.classList.add("place-item--active");
-
-          // плавно прокрутить список к активному
           item.scrollIntoView({ block: "nearest", behavior: "smooth" });
         });
 
-        // Первое место выделим по умолчанию
         if (index === 0) {
           item.classList.add("place-item--active");
         }
@@ -536,7 +539,6 @@
 
       setStatus("Готово. Всего мест: " + PLACES.length);
 
-      // Фильтры (визуально переключают категорию, без скрытия в этой версии)
       const chipsRow = document.getElementById("chips-row");
       chipsRow.addEventListener("click", (e) => {
         const chip = e.target.closest(".chip");
@@ -546,8 +548,6 @@
           c.classList.remove("chip--active")
         );
         chip.classList.add("chip--active");
-
-        // Логика фильтра пока не включена — позже подключим Firebase/реальные данные
       });
     };
   </script>
