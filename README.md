@@ -5,11 +5,7 @@
   <title>K-MAP Korea — шаблон</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
@@ -21,7 +17,6 @@
       color: #111827;
     }
 
-    /* Рамка телефона */
     .phone {
       width: min(420px, 100vw);
       height: min(900px, 100vh);
@@ -52,7 +47,6 @@
       background: #ffffff;
     }
 
-    /* Верхняя панель */
     .top-bar {
       height: 52px;
       padding: 8px 14px;
@@ -75,9 +69,7 @@
       text-transform: uppercase;
     }
 
-    .top-logo span {
-      color: #60a5fa;
-    }
+    .top-logo span { color: #60a5fa; }
 
     .top-icon-btn {
       width: 30px;
@@ -92,43 +84,24 @@
       color: #4b5563;
     }
 
-    /* Основная часть */
-    .main {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-    }
+    .main { flex: 1; position: relative; overflow: hidden; }
 
-    .screen {
-      position: absolute;
-      inset: 0;
-      display: none;
-    }
+    .screen { position: absolute; inset: 0; display: none; }
+    .screen.active { display: block; }
 
-    .screen.active {
-      display: block;
-    }
-
-    /* === КАРТА (дневная тема) === */
-    .map-screen {
-      background: #dbeafe;
-      color: #111827;
-    }
+    /* === КАРТА (дневная) === */
+    .map-screen { background: #dbeafe; color: #111827; }
 
     .map-background {
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(to bottom, #e5f0ff 0%, #d1e4ff 45%, #c4e0ff 60%, #bfdbfe 100%);
+      background: linear-gradient(to bottom,
+        #e5f0ff 0%, #d1e4ff 45%, #c4e0ff 60%, #bfdbfe 100%);
     }
 
-    /* имитация рек/дорог */
     .map-river {
       position: absolute;
-      left: 12%;
-      right: 8%;
-      top: 30%;
-      bottom: 20%;
+      left: 12%; right: 8%; top: 30%; bottom: 20%;
       border-radius: 999px;
       background: radial-gradient(circle at 10% 0, #93c5fd, #60a5fa);
       opacity: 0.5;
@@ -184,14 +157,11 @@
     .pin-3 { top: 54%; right: 24%; }
     .pin-4 { bottom: 30%; left: 33%; }
 
-    /* Плавающая строка поиска над картой */
     .map-search-pill {
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 50%; transform: translateX(-50%);
       top: 12px;
-      width: 92%;
-      max-width: 360px;
+      width: 92%; max-width: 360px;
       background: #ffffff;
       border-radius: 999px;
       box-shadow: 0 7px 18px rgba(148,163,184,0.65);
@@ -217,20 +187,16 @@
     .map-search-icon::after {
       content: "";
       position: absolute;
-      width: 8px;
-      height: 2px;
+      width: 8px; height: 2px;
       background: #9ca3af;
       border-radius: 999px;
       transform: rotate(45deg);
-      right: -4px;
-      bottom: -1px;
+      right: -4px; bottom: -1px;
     }
 
-    /* Кнопки справа (масштаб, геолокация и т.п.) */
     .right-controls {
       position: absolute;
-      right: 10px;
-      top: 80px;
+      right: 10px; top: 80px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -238,8 +204,7 @@
     }
 
     .ctrl-btn {
-      width: 38px;
-      height: 38px;
+      width: 38px; height: 38px;
       border-radius: 999px;
       background: #ffffff;
       border: 1px solid #e5e7eb;
@@ -251,16 +216,11 @@
       font-size: 17px;
     }
 
-    .ctrl-btn.small {
-      font-size: 14px;
-    }
+    .ctrl-btn.small { font-size: 14px; }
 
-    /* Нижний шит с TOP-10 */
     .bottom-sheet {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 60px;
+      left: 0; right: 0; bottom: 60px;
       padding: 0 8px 10px;
       z-index: 4;
       pointer-events: none;
@@ -276,8 +236,7 @@
     }
 
     .sheet-handle {
-      width: 42px;
-      height: 4px;
+      width: 42px; height: 4px;
       border-radius: 999px;
       background: #e5e7eb;
       margin: 4px auto 8px;
@@ -296,10 +255,7 @@
       color: #111827;
     }
 
-    .sheet-sub {
-      font-size: 11px;
-      color: #6b7280;
-    }
+    .sheet-sub { font-size: 11px; color: #6b7280; }
 
     .sheet-location-row {
       margin-top: 4px;
@@ -333,29 +289,17 @@
 
     .sheet-card.active {
       border-color: #60a5fa;
-      box-shadow: 0 0 0 1px rgba(96,165,250,0.6), 0 10px 20px rgba(37,99,235,0.65);
+      box-shadow:
+        0 0 0 1px rgba(96,165,250,0.6),
+        0 10px 20px rgba(37,99,235,0.65);
     }
 
-    .sheet-rank {
-      font-size: 15px;
-      font-weight: 700;
-      opacity: 0.85;
-    }
-
+    .sheet-rank { font-size: 15px; font-weight: 700; opacity: 0.85; }
     .sheet-name {
-      font-size: 11px;
-      margin-top: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 11px; margin-top: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-
-    .sheet-distance {
-      font-size: 10px;
-      color: #e5e7eb;
-      margin-top: 2px;
-    }
-
+    .sheet-distance { font-size: 10px; color: #e5e7eb; margin-top: 2px; }
     .sheet-tag {
       margin-top: 4px;
       align-self: flex-start;
@@ -366,12 +310,9 @@
       border: 1px solid rgba(249,250,251,0.4);
     }
 
-    /* Нижняя навигация */
+    /* НИЖНЯЯ НАВИГАЦИЯ */
     .bottom-nav {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      position: absolute; left: 0; right: 0; bottom: 0;
       height: 60px;
       background: #ffffff;
       border-top: 1px solid #e5e7eb;
@@ -394,8 +335,7 @@
     }
 
     .nav-icon {
-      width: 26px;
-      height: 26px;
+      width: 26px; height: 26px;
       border-radius: 999px;
       display: flex;
       align-items: center;
@@ -416,27 +356,75 @@
       font-weight: 500;
     }
 
-    /* === Экран поиска (как отдельная страница) === */
+    /* === ЛЕНТА === */
+    .feed-screen {
+      padding: 10px 14px 70px;
+      background: #f9fafb;
+      overflow-y: auto;
+    }
+
+    .feed-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #111827;
+    }
+
+    .feed-sub {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    .feed-section-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 12px 0 6px;
+      color: #111827;
+    }
+
+    .feed-card {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      padding: 8px 9px;
+      font-size: 12px;
+      color: #374151;
+      box-shadow: 0 2px 6px rgba(148,163,184,0.35);
+      margin-bottom: 6px;
+    }
+
+    .feed-label {
+      font-size: 10px;
+      color: #ef4444;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .feed-label-blue { color: #2563eb; }
+    .feed-label-green { color: #059669; }
+
+    .feed-meta {
+      font-size: 10px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    /* === ПОИСК === */
     .search-screen {
       padding: 10px 12px 70px;
       background: #f9fafb;
     }
 
-    .search-header {
-      margin-bottom: 8px;
-    }
-
+    .search-header { margin-bottom: 8px; }
     .search-title {
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 4px;
       color: #111827;
     }
-
-    .search-sub {
-      font-size: 12px;
-      color: #6b7280;
-    }
+    .search-sub { font-size: 12px; color: #6b7280; }
 
     .search-bar-full {
       margin-top: 8px;
@@ -487,7 +475,7 @@
       color: #9ca3af;
     }
 
-    /* === Экран аккаунта === */
+    /* === АККАУНТ === */
     .account-screen {
       padding: 12px 14px 70px;
       background: #f9fafb;
@@ -514,16 +502,8 @@
       color: #111827;
     }
 
-    .account-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: #111827;
-    }
-
-    .account-sub {
-      font-size: 11px;
-      color: #6b7280;
-    }
+    .account-name { font-size: 15px; font-weight: 600; color: #111827; }
+    .account-sub { font-size: 11px; color: #6b7280; }
 
     .section-title {
       font-size: 13px;
@@ -532,11 +512,7 @@
       color: #111827;
     }
 
-    .card-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .card-row { display: flex; flex-wrap: wrap; gap: 8px; }
 
     .small-card {
       flex: 1 1 calc(50% - 8px);
@@ -594,24 +570,18 @@
     }
 
     @media (max-height: 720px) {
-      .phone {
-        border-radius: 24px;
-      }
+      .phone { border-radius: 24px; }
     }
   </style>
 </head>
 <body>
 <div class="phone">
   <div class="status-bar">
-    <span>7:05</span>
-    <span>LTE</span>
-    <span>🔋 80%</span>
+    <span>7:05</span><span>LTE</span><span>🔋 80%</span>
   </div>
 
   <div class="app">
-    <!-- Верх -->
     <div class="top-bar">
-      <!-- название легко поменять -->
       <div class="top-logo"><span>K-MAP</span> KOREA</div>
       <div class="top-icon-btn">☰</div>
     </div>
@@ -634,13 +604,12 @@
         <div class="map-pin pin-3"></div>
         <div class="map-pin pin-4"></div>
 
-        <!-- ПОИСК НАД КАРТОЙ -->
+        <!-- поисковая пилюля -->
         <div class="map-search-pill" id="map-search-pill">
           <div class="map-search-icon"></div>
-          <div>Самушили, кафе, маркеты…</div>
+          <div>Places, cafes, markets…</div>
         </div>
 
-        <!-- Кнопки справа -->
         <div class="right-controls">
           <div class="ctrl-btn small">⟳</div>
           <div class="ctrl-btn">◎</div>
@@ -648,14 +617,14 @@
           <div class="ctrl-btn small">➤</div>
         </div>
 
-        <!-- НИЖНИЙ ШИТ С TOP-10 -->
+        <!-- TOP-10 мест -->
         <div class="bottom-sheet">
           <div class="bottom-sheet-inner">
             <div class="sheet-handle"></div>
             <div class="sheet-header">
               <div>
                 <div class="sheet-title">TOP-10 Nearby Hotspots</div>
-                <div class="sheet-sub">По оценкам иностранцев в Корее</div>
+                <div class="sheet-sub">Popular with foreigners in Korea</div>
               </div>
               <div class="sheet-sub">1.2 km · Seoul</div>
             </div>
@@ -663,19 +632,74 @@
               <span>Paengseong-eup</span>
               <span>Updated 13 min ago</span>
             </div>
-
-            <div class="sheet-grid" id="sheet-grid">
-              <!-- карточки добавятся скриптом -->
-            </div>
+            <div class="sheet-grid" id="sheet-grid"></div>
           </div>
         </div>
       </div>
 
-      <!-- ПОИСК (отдельная страница, как 3 фото) -->
+      <!-- ЛЕНТА -->
+      <div class="screen feed-screen" id="screen-feed">
+        <div class="feed-title">Feed</div>
+        <div class="feed-sub">
+          Новости, предупреждения и жизнь в Корее для иностранцев.
+        </div>
+
+        <div class="feed-section-title">Важные предупреждения</div>
+
+        <div class="feed-card">
+          <div class="feed-label">⚠ Вождение в нетрезвом виде</div>
+          Если вас остановят с алкоголем в крови, возможны крупные штрафы,
+          лишение прав и проблемы с визой. Всегда вызывайте такси или трезвого водителя.
+          <div class="feed-meta">Обновлено сегодня · Информация общего характера</div>
+        </div>
+
+        <div class="feed-card">
+          <div class="feed-label">⚠ Скоростной режим</div>
+          В Корее много камер, в том числе средней скорости. Частые лимиты:
+          30 / 50 / 60 / 80 / 100 км/ч. Превышение может привести к штрафу и снятию баллов.
+          <div class="feed-meta">Дороги по всей стране</div>
+        </div>
+
+        <div class="feed-section-title">Правила и советы</div>
+
+        <div class="feed-card">
+          <div class="feed-label feed-label-blue">INFO · Вождение без прав</div>
+          Вождение без действительных корейских прав может привести к крупному штрафу,
+          судимости и проблемам с дальнейшим проживанием. Всегда проверяйте статус своей лицензии.
+          <div class="feed-meta">Для всех типов виз</div>
+        </div>
+
+        <div class="feed-card">
+          <div class="feed-label feed-label-blue">INFO · Камеры и штрафы</div>
+          Многие камеры не видны сразу. Следите за знаками, разметкой и навигатором.
+          Лучше ехать на 5 км/ч медленнее, чем потом платить штраф.
+          <div class="feed-meta">Совет по безопасности</div>
+        </div>
+
+        <div class="feed-section-title">Жизнь в Корее</div>
+
+        <div class="feed-card">
+          <div class="feed-label feed-label-green">LIFE · Полезные места</div>
+          Новый раздел в приложении: TOP-10 мест рядом — кафе, парки, спортзалы, маркеты.
+          Всё отобрано по отзывам иностранцев.
+          <div class="feed-meta">K-MAP Korea · Версия 0.1 (demo)</div>
+        </div>
+
+        <div class="feed-card">
+          <div class="feed-label feed-label-green">LIFE · Комьюнити</div>
+          В будущем здесь можно будет публиковать объявления, искать соседей,
+          делиться рекомендациями и делить такси.
+          <div class="feed-meta">Планы на релиз 1.0</div>
+        </div>
+      </div>
+
+      <!-- ПОИСК -->
       <div class="screen search-screen" id="screen-search">
         <div class="search-header">
           <div class="search-title">Search</div>
-          <div class="search-sub">Поиск мест, самушилей, кафе, парковки и т.д.</div>
+          <div class="search-sub">
+            Поиск по картам: кафе, магазины, сервисы, спорт, развлечения.
+          </div>
         </div>
 
         <div class="search-bar-full">
@@ -686,11 +710,11 @@
         </div>
 
         <div class="search-chip-row">
-          <div class="chip">Samushil today</div>
-          <div class="chip">Russian-friendly cafe</div>
+          <div class="chip">Coffee & dessert</div>
           <div class="chip">Markets with СНГ продуктами</div>
           <div class="chip">Car service</div>
           <div class="chip">Beauty & Hair</div>
+          <div class="chip">Gyms & sports</div>
         </div>
 
         <div class="search-history-title">Recent</div>
@@ -699,9 +723,6 @@
         </div>
         <div class="history-item">
           <span>McDonald's Gimpo</span><span>11.18</span>
-        </div>
-        <div class="history-item">
-          <span>Samushil night shift Asan</span><span>11.17</span>
         </div>
         <div class="history-item">
           <span>Russian Market Seoul</span><span>11.16</span>
@@ -714,27 +735,27 @@
           <div class="avatar">IG</div>
           <div>
             <div class="account-name">My account</div>
-            <div class="account-sub">Coupons, favourites, language, support</div>
+            <div class="account-sub">Coupons, favourites, language, rules</div>
           </div>
         </div>
 
         <div class="section-title">Coupons & bonuses</div>
         <div class="card-row">
           <div class="small-card">
-            До <b>–10%</b> в партнёрских кафе.<br>
+            До <b>–10%</b> в партнёрских кафе и сервисах.<br>
             Показывай карту K-MAP при оплате.
             <div class="badge">Active</div>
           </div>
           <div class="small-card">
-            1 бесплатный трансфер на самушиль<br>
-            каждый месяц.
+            Бесплатный трансфер до партнёрской точки<br>
+            раз в месяц (в планах).
             <div class="badge">Coming soon</div>
           </div>
         </div>
 
         <div class="section-title">Favourites</div>
         <div class="small-card">
-          12 places saved: cafes, samushils, beauty, auto.<br>
+          12 places saved: cafes, markets, beauty, auto, sports.<br>
           Только макет — нажатия никуда не ведут.
           <div class="badge">Demo only</div>
         </div>
@@ -758,15 +779,23 @@
           Для презентации: языки просто отображаются, переключение пока не реализовано.
         </div>
 
+        <div class="section-title">Community & rules</div>
+        <div class="list-item">
+          <span>Community rules</span><span>Respect & safety</span>
+        </div>
+        <div class="list-item">
+          <span>Driving safety tips</span><span>Important</span>
+        </div>
+        <div class="list-item">
+          <span>Version</span><span>0.1 · Demo</span>
+        </div>
+
         <div class="section-title">Settings & help</div>
         <div class="list-item">
           <span>Support 24/7</span><span>Chat / WhatsApp</span>
         </div>
         <div class="list-item">
           <span>About K-MAP Korea</span><span>Info</span>
-        </div>
-        <div class="list-item">
-          <span>For partners</span><span>Conditions</span>
         </div>
         <div class="list-item">
           <span>Log out</span><span>Visual only</span>
@@ -778,6 +807,10 @@
         <div class="nav-item active" data-screen="map">
           <div class="nav-icon">📍</div>
           <span>Map</span>
+        </div>
+        <div class="nav-item" data-screen="feed">
+          <div class="nav-icon">📰</div>
+          <span>Feed</span>
         </div>
         <div class="nav-item" data-screen="search">
           <div class="nav-icon">🔍</div>
@@ -793,48 +826,43 @@
 </div>
 
 <script>
-  // TOP-10 места
+  // TOP-10 places (без самушиль)
   const places = [
     { name: "Glamping Bom", tag: "Glamping / View", distance: "4 km away" },
-    { name: "Dutum Jumbo Pocha", tag: "Soup & Toast", distance: "1.6 km away" },
+    { name: "Dutum Jumbo Pocha", tag: "Food & drinks", distance: "1.6 km away" },
     { name: "BBQ Pork Place", tag: "K-BBQ", distance: "2.3 km away" },
     { name: "Dunpo Sports Center", tag: "Sports / Gym", distance: "2.5 km away" },
     { name: "Russian Market Seoul", tag: "SNG products", distance: "3.1 km away" },
     { name: "Han River View Cafe", tag: "Coffee & dessert", distance: "1.2 km away" },
-    { name: "Samushil Asan Line 3", tag: "Day shift", distance: "12 km away" },
-    { name: "Samushil Night Shift", tag: "Night shift", distance: "15 km away" },
     { name: "Car Rent Korea", tag: "Rent a car", distance: "5.4 km away" },
-    { name: "Language Hub", tag: "Korean courses", distance: "800 m away" }
+    { name: "Language Hub", tag: "Korean courses", distance: "800 m away" },
+    { name: "Beauty Room K-Style", tag: "Hair & beauty", distance: "1.4 km away" },
+    { name: "24/7 Help Point", tag: "Help & translation", distance: "650 m away" }
   ];
 
   const sheetGrid = document.getElementById("sheet-grid");
-
   places.forEach((p, index) => {
     const card = document.createElement("div");
     card.className = "sheet-card" + (index === 0 ? " active" : "");
     card.dataset.index = index;
-
     card.innerHTML = `
       <div class="sheet-rank">${index + 1}</div>
       <div class="sheet-name">${p.name}</div>
       <div class="sheet-distance">${p.distance}</div>
       <div class="sheet-tag">${p.tag}</div>
     `;
-
     card.addEventListener("click", () => {
       document.querySelectorAll(".sheet-card").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
-      // только визуальный эффект — ничего не открываем,
-      // чтобы всё оставалось демо
     });
-
     sheetGrid.appendChild(card);
   });
 
-  // Навигация по нижнему меню
+  // Навигация
   const navItems = document.querySelectorAll(".nav-item");
   const screens = {
     map: document.getElementById("screen-map"),
+    feed: document.getElementById("screen-feed"),
     search: document.getElementById("screen-search"),
     account: document.getElementById("screen-account")
   };
@@ -853,7 +881,7 @@
     });
   });
 
-  // Нажатие на поисковую пилюлю над картой -> сразу открываем экран поиска
+  // Нажатие на поисковую пилюлю над картой -> экран поиска
   const mapSearchPill = document.getElementById("map-search-pill");
   mapSearchPill.addEventListener("click", () => {
     openScreen("search");
