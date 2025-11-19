@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>SIYAEM Korea Map — шаблон</title>
+  <title>K-MAP Korea — шаблон</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
@@ -13,35 +13,35 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
-      background: #05070b;
+      background: #e5e7eb;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      color: #fff;
+      color: #111827;
     }
 
     /* Рамка телефона */
     .phone {
       width: min(420px, 100vw);
       height: min(900px, 100vh);
-      background: #020308;
-      border-radius: 36px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      background: #f3f4f6;
+      border-radius: 32px;
+      box-shadow: 0 20px 60px rgba(15,23,42,0.35);
       overflow: hidden;
-      border: 1px solid #222;
+      border: 1px solid #d1d5db;
       position: relative;
     }
 
     .status-bar {
       height: 22px;
-      background: #020308;
+      background: #f3f4f6;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       padding: 0 14px;
       font-size: 10px;
-      color: #888;
+      color: #6b7280;
       gap: 8px;
     }
 
@@ -49,19 +49,18 @@
       height: calc(100% - 22px);
       display: flex;
       flex-direction: column;
-      background: #05070b;
+      background: #ffffff;
     }
 
     /* Верхняя панель */
     .top-bar {
-      height: 54px;
-      padding: 8px 12px;
+      height: 52px;
+      padding: 8px 14px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: linear-gradient(to bottom, #070a12ee, #05070bdd);
-      border-bottom: 1px solid #151822;
-      backdrop-filter: blur(18px);
+      justify-content: space-between;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
       z-index: 5;
     }
 
@@ -70,67 +69,27 @@
       font-size: 17px;
       padding: 4px 10px;
       border-radius: 999px;
-      background: #05070b;
-      color: #f5f5f5;
-      border: 1px solid #2b2f3b;
-      letter-spacing: 0.05em;
+      background: #111827;
+      color: #f9fafb;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
     .top-logo span {
-      color: #ffdd55;
-    }
-
-    .top-search {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(10, 14, 22, 0.95);
-      border-radius: 999px;
-      padding: 6px 10px;
-      border: 1px solid #1c2030;
-    }
-
-    .search-icon {
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      border: 2px solid #888;
-      position: relative;
-    }
-
-    .search-icon::after {
-      content: "";
-      position: absolute;
-      width: 7px;
-      height: 2px;
-      background: #888;
-      border-radius: 999px;
-      transform: rotate(45deg);
-      right: -4px;
-      bottom: -1px;
-    }
-
-    .search-placeholder {
-      font-size: 12px;
-      color: #7f8594;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: #60a5fa;
     }
 
     .top-icon-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 16px;
-      border: 1px solid #2a3040;
-      background: radial-gradient(circle at 30% 20%, #202534, #090b13);
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 16px;
-      color: #f5f5f5;
+      color: #4b5563;
     }
 
     /* Основная часть */
@@ -140,7 +99,6 @@
       overflow: hidden;
     }
 
-    /* Экран-карта */
     .screen {
       position: absolute;
       inset: 0;
@@ -151,201 +109,261 @@
       display: block;
     }
 
-    /* Карта */
+    /* === КАРТА (дневная тема) === */
     .map-screen {
-      background: radial-gradient(circle at 30% 20%, #1e2736, #05070b 60%, #020308);
-      color: #fff;
+      background: #dbeafe;
+      color: #111827;
     }
 
-    .map-grid {
+    .map-background {
       position: absolute;
       inset: 0;
-      background-image:
-        linear-gradient(to right, rgba(0,0,0,0.6) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0,0,0,0.6) 1px, transparent 1px);
-      background-size: 80px 80px;
-      opacity: 0.45;
-      pointer-events: none;
+      background:
+        linear-gradient(to bottom, #e5f0ff 0%, #d1e4ff 45%, #c4e0ff 60%, #bfdbfe 100%);
+    }
+
+    /* имитация рек/дорог */
+    .map-river {
+      position: absolute;
+      left: 12%;
+      right: 8%;
+      top: 30%;
+      bottom: 20%;
+      border-radius: 999px;
+      background: radial-gradient(circle at 10% 0, #93c5fd, #60a5fa);
+      opacity: 0.5;
+      filter: blur(6px);
     }
 
     .map-korea-outline {
       position: absolute;
-      inset: 18% 10% 18% 18%;
-      border-radius: 40% 45% 40% 50%;
-      border: 2px solid rgba(130, 184, 255, 0.35);
+      inset: 14% 12% 18% 20%;
+      border-radius: 45% 40% 45% 42%;
+      border: 2px solid rgba(37,99,235,0.45);
       box-shadow:
-        0 0 25px rgba(140, 190, 255, 0.4),
-        0 0 120px rgba(0, 180, 255, 0.15);
-      filter: blur(0.2px);
+        0 0 25px rgba(59,130,246,0.35),
+        0 0 80px rgba(129,199,255,0.25);
     }
 
     .city-label {
       position: absolute;
       font-size: 11px;
-      color: #c8d5ff;
-      text-shadow: 0 0 6px rgba(0,0,0,0.9);
+      color: #1f2933;
+      background: rgba(255,255,255,0.8);
+      padding: 2px 6px;
+      border-radius: 999px;
+      box-shadow: 0 1px 4px rgba(148,163,184,0.5);
     }
 
-    .city-seoul { top: 29%; left: 45%; }
-    .city-busan { bottom: 22%; right: 19%; }
-    .city-incheon { top: 26%; left: 38%; }
-    .city-daegu { top: 48%; right: 23%; }
-    .city-gwangju { bottom: 34%; left: 34%; }
+    .city-seoul { top: 26%; left: 45%; }
+    .city-busan { bottom: 25%; right: 20%; }
+    .city-incheon { top: 23%; left: 37%; }
+    .city-daegu { top: 48%; right: 25%; }
+    .city-gwangju { bottom: 32%; left: 32%; }
 
-    /* Пины */
     .map-pin {
       position: absolute;
       width: 22px;
       height: 22px;
       border-radius: 999px 999px 999px 0;
-      background: #ff5c4d;
+      background: #2563eb;
       transform: rotate(-45deg);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      box-shadow: 0 3px 8px rgba(37,99,235,0.7);
     }
 
     .map-pin::after {
       content: "";
       position: absolute;
-      inset: 4px;
+      inset: 5px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 20%, #ffe7e3, #ffb4a7);
+      background: radial-gradient(circle at 30% 20%, #eff6ff, #93c5fd);
     }
 
-    .pin-1 { top: 32%; left: 47%; }
-    .pin-2 { top: 30%; left: 40%; }
-    .pin-3 { top: 55%; right: 24%; }
-    .pin-4 { bottom: 32%; left: 32%; }
+    .pin-1 { top: 30%; left: 47%; }
+    .pin-2 { top: 28%; left: 40%; }
+    .pin-3 { top: 54%; right: 24%; }
+    .pin-4 { bottom: 30%; left: 33%; }
 
-    /* Панель справа */
+    /* Плавающая строка поиска над картой */
+    .map-search-pill {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 12px;
+      width: 92%;
+      max-width: 360px;
+      background: #ffffff;
+      border-radius: 999px;
+      box-shadow: 0 7px 18px rgba(148,163,184,0.65);
+      border: 1px solid #e5e7eb;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #6b7280;
+      cursor: pointer;
+      z-index: 4;
+    }
+
+    .map-search-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 2px solid #9ca3af;
+      position: relative;
+    }
+
+    .map-search-icon::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 2px;
+      background: #9ca3af;
+      border-radius: 999px;
+      transform: rotate(45deg);
+      right: -4px;
+      bottom: -1px;
+    }
+
+    /* Кнопки справа (масштаб, геолокация и т.п.) */
     .right-controls {
       position: absolute;
       right: 10px;
-      top: 70px;
+      top: 80px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      z-index: 4;
+      z-index: 3;
     }
 
     .ctrl-btn {
       width: 38px;
       height: 38px;
-      border-radius: 13px;
-      background: radial-gradient(circle at 30% 20%, #262c3d, #090c12);
-      border: 1px solid #232838;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.7);
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 12px rgba(148,163,184,0.7);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #f5f5f5;
-      font-size: 18px;
+      color: #374151;
+      font-size: 17px;
     }
 
     .ctrl-btn.small {
-      font-size: 15px;
+      font-size: 14px;
     }
 
-    /* Блок топ-мест */
-    .top-places-panel {
+    /* Нижний шит с TOP-10 */
+    .bottom-sheet {
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 70px;
-      padding: 0 10px;
-      pointer-events: none;
+      bottom: 60px;
+      padding: 0 8px 10px;
       z-index: 4;
+      pointer-events: none;
     }
 
-    .top-places-inner {
-      background: radial-gradient(circle at 0 0, #262c3d, #0a0d16);
-      border-radius: 18px;
-      border: 1px solid #242a3c;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.9);
-      padding: 10px 10px 12px;
+    .bottom-sheet-inner {
       pointer-events: auto;
+      background: #ffffff;
+      border-radius: 22px 22px 0 0;
+      box-shadow: 0 -4px 18px rgba(148,163,184,0.8);
+      border: 1px solid #e5e7eb;
+      padding: 8px 12px 12px;
     }
 
-    .top-places-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
-
-    .top-places-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #f5f5f5;
-    }
-
-    .top-places-sub {
-      font-size: 11px;
-      color: #888fa0;
-    }
-
-    .top-places-list {
-      display: flex;
-      overflow-x: auto;
-      gap: 8px;
-      padding-bottom: 4px;
-      margin-top: 6px;
-    }
-
-    .top-places-list::-webkit-scrollbar {
+    .sheet-handle {
+      width: 42px;
       height: 4px;
-    }
-
-    .top-places-list::-webkit-scrollbar-thumb {
-      background: #2d3344;
       border-radius: 999px;
+      background: #e5e7eb;
+      margin: 4px auto 8px;
     }
 
-    .place-card {
-      min-width: 170px;
-      max-width: 170px;
-      background: linear-gradient(145deg, #151927, #10121d);
-      border-radius: 14px;
-      padding: 8px 9px;
-      border: 1px solid #222636;
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .sheet-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .sheet-sub {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .sheet-location-row {
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .sheet-grid {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 8px;
+      max-height: 190px;
+      overflow-y: auto;
+    }
+
+    .sheet-card {
+      border-radius: 16px;
+      background: linear-gradient(to top, #111827, #1f2937);
+      color: #f9fafb;
+      padding: 6px 7px 8px;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      justify-content: space-between;
+      box-shadow: 0 5px 12px rgba(15,23,42,0.7);
+      border: 1px solid transparent;
       cursor: pointer;
     }
 
-    .place-card.active {
-      border-color: #ffdd55;
-      box-shadow: 0 0 12px rgba(255,221,85,0.4);
+    .sheet-card.active {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 1px rgba(96,165,250,0.6), 0 10px 20px rgba(37,99,235,0.65);
     }
 
-    .place-name {
-      font-size: 12px;
-      font-weight: 600;
-      color: #f7f7f7;
+    .sheet-rank {
+      font-size: 15px;
+      font-weight: 700;
+      opacity: 0.85;
     }
 
-    .place-meta {
+    .sheet-name {
       font-size: 11px;
-      color: #a7aec2;
-      display: flex;
-      justify-content: space-between;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .place-tag {
+    .sheet-distance {
       font-size: 10px;
+      color: #e5e7eb;
+      margin-top: 2px;
+    }
+
+    .sheet-tag {
+      margin-top: 4px;
+      align-self: flex-start;
+      font-size: 9px;
       padding: 3px 7px;
       border-radius: 999px;
-      background: rgba(255,221,85,0.08);
-      color: #ffdd77;
-      border: 1px solid rgba(255,221,85,0.35);
-      align-self: flex-start;
-      margin-top: 3px;
-    }
-
-    .place-distance {
-      font-size: 10px;
-      color: #8da3ff;
-      margin-top: 1px;
+      background: rgba(249,250,251,0.1);
+      border: 1px solid rgba(249,250,251,0.4);
     }
 
     /* Нижняя навигация */
@@ -355,8 +373,8 @@
       right: 0;
       bottom: 0;
       height: 60px;
-      background: linear-gradient(to top, #020308, #05070b);
-      border-top: 1px solid #151824;
+      background: #ffffff;
+      border-top: 1px solid #e5e7eb;
       display: flex;
       align-items: center;
       justify-content: space-around;
@@ -371,125 +389,72 @@
       justify-content: center;
       gap: 2px;
       font-size: 10px;
-      color: #7a8190;
+      color: #6b7280;
       cursor: pointer;
     }
 
     .nav-icon {
       width: 26px;
       height: 26px;
-      border-radius: 10px;
+      border-radius: 999px;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 1px solid transparent;
-      font-size: 15px;
+      font-size: 16px;
     }
 
     .nav-item.active .nav-icon {
-      border-color: #ffdd55;
-      background: radial-gradient(circle at 30% 20%, #ffdd55, #b57b1f);
-      color: #161616;
-      box-shadow: 0 0 18px rgba(255,221,85,0.6);
+      border-color: #60a5fa;
+      background: #eff6ff;
+      color: #1d4ed8;
+      box-shadow: 0 0 12px rgba(96,165,250,0.7);
     }
 
     .nav-item.active span {
-      color: #f5f5f5;
+      color: #111827;
+      font-weight: 500;
     }
 
-    /* Окно места */
-    .place-modal {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 140px;
-      padding: 0 12px;
-      z-index: 6;
-      display: none;
-    }
-
-    .place-modal-inner {
-      background: radial-gradient(circle at 0 0, #22283a, #0c101b);
-      border-radius: 18px;
-      border: 1px solid #2a3144;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.95);
-      padding: 10px 12px 12px;
-    }
-
-    .modal-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .modal-title {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .modal-rating {
-      font-size: 11px;
-      color: #ffdd77;
-    }
-
-    .modal-info {
-      font-size: 11px;
-      color: #a5aec4;
-      margin-top: 4px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .btn {
-      flex: 1;
-      font-size: 11px;
-      padding: 6px 8px;
-      border-radius: 999px;
-      border: 1px solid #252c3c;
-      background: #10131e;
-      color: #f5f5f5;
-      text-align: center;
-    }
-
-    .btn-main {
-      border-color: #ffdd55;
-      background: radial-gradient(circle at 30% 20%, #ffdd55, #b57b1f);
-      color: #141414;
-      font-weight: 600;
-    }
-
-    .btn-close {
-      max-width: 70px;
-      flex: 0 0 auto;
-    }
-
-    /* Экран поиска (заглушка) */
+    /* === Экран поиска (как отдельная страница) === */
     .search-screen {
-      padding: 14px 14px 70px;
-      background: radial-gradient(circle at 40% 0, #23273a, #05070b 60%, #020308);
+      padding: 10px 12px 70px;
+      background: #f9fafb;
+    }
+
+    .search-header {
+      margin-bottom: 8px;
     }
 
     .search-title {
       font-size: 18px;
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 4px;
+      color: #111827;
     }
 
     .search-sub {
       font-size: 12px;
-      color: #a0a8bd;
-      margin-bottom: 12px;
+      color: #6b7280;
+    }
+
+    .search-bar-full {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      padding: 8px 12px;
+      box-shadow: 0 4px 10px rgba(148,163,184,0.4);
     }
 
     .search-chip-row {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      margin-top: 10px;
       margin-bottom: 10px;
     }
 
@@ -497,24 +462,35 @@
       font-size: 11px;
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid #31384c;
-      background: #0d101a;
-      color: #c6cbe0;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      color: #4b5563;
     }
 
-    .search-input-mock {
-      margin-top: 6px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      border: 1px dashed #353c50;
-      color: #5f6880;
+    .search-history-title {
       font-size: 12px;
+      margin: 6px 0 4px;
+      color: #6b7280;
     }
 
-    /* Экран аккаунта */
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 13px;
+    }
+
+    .history-item span:last-child {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    /* === Экран аккаунта === */
     .account-screen {
-      padding: 14px 14px 70px;
-      background: radial-gradient(circle at 10% 0, #252b3f, #05070b 55%, #020308);
+      padding: 12px 14px 70px;
+      background: #f9fafb;
       overflow-y: auto;
     }
 
@@ -522,36 +498,38 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .avatar {
       width: 42px;
       height: 42px;
       border-radius: 999px;
-      border: 2px solid #ffdd55;
-      background: radial-gradient(circle at 30% 20%, #ffe7b3, #d39f42);
+      border: 2px solid #60a5fa;
+      background: radial-gradient(circle at 30% 20%, #bfdbfe, #60a5fa);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      color: #141414;
+      color: #111827;
     }
 
     .account-name {
       font-size: 15px;
       font-weight: 600;
+      color: #111827;
     }
 
     .account-sub {
       font-size: 11px;
-      color: #a3abc0;
+      color: #6b7280;
     }
 
     .section-title {
       font-size: 13px;
       font-weight: 600;
-      margin: 12px 0 6px;
+      margin: 10px 0 6px;
+      color: #111827;
     }
 
     .card-row {
@@ -563,12 +541,13 @@
     .small-card {
       flex: 1 1 calc(50% - 8px);
       min-width: 130px;
-      background: linear-gradient(145deg, #151a2a, #0b0e18);
+      background: #ffffff;
       border-radius: 14px;
-      border: 1px solid #292f43;
+      border: 1px solid #e5e7eb;
       padding: 8px 9px;
       font-size: 11px;
-      color: #cbd1e6;
+      color: #4b5563;
+      box-shadow: 0 2px 6px rgba(148,163,184,0.35);
     }
 
     .badge {
@@ -576,9 +555,10 @@
       font-size: 10px;
       padding: 3px 7px;
       border-radius: 999px;
-      border: 1px solid #414864;
-      color: #9aa3c7;
+      border: 1px solid #d1d5db;
+      color: #6b7280;
       margin-top: 4px;
+      background: #f9fafb;
     }
 
     .lang-select {
@@ -586,15 +566,15 @@
       width: 100%;
       padding: 6px 8px;
       border-radius: 10px;
-      border: 1px solid #343a4f;
-      background: #070a13;
-      color: #e1e5ff;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      color: #111827;
       font-size: 12px;
     }
 
     .lang-note {
       font-size: 10px;
-      color: #8f97b0;
+      color: #6b7280;
       margin-top: 3px;
     }
 
@@ -603,13 +583,13 @@
       justify-content: space-between;
       align-items: center;
       padding: 7px 0;
-      border-bottom: 1px solid #181d2a;
+      border-bottom: 1px solid #e5e7eb;
       font-size: 12px;
-      color: #cbd1e6;
+      color: #4b5563;
     }
 
     .list-item span:last-child {
-      color: #7f88a2;
+      color: #9ca3af;
       font-size: 11px;
     }
 
@@ -623,138 +603,146 @@
 <body>
 <div class="phone">
   <div class="status-bar">
-    <span>13:58</span>
+    <span>7:05</span>
     <span>LTE</span>
-    <span>🔋 76%</span>
+    <span>🔋 80%</span>
   </div>
 
   <div class="app">
     <!-- Верх -->
     <div class="top-bar">
-      <div class="top-logo"><span>SIYAEM</span> KOREA</div>
-      <div class="top-search">
-        <div class="search-icon"></div>
-        <div class="search-placeholder">Поиск мест, самушилей, кафе…</div>
-      </div>
+      <!-- название легко поменять -->
+      <div class="top-logo"><span>K-MAP</span> KOREA</div>
       <div class="top-icon-btn">☰</div>
     </div>
 
-    <!-- Основное содержимое -->
     <div class="main">
-      <!-- Экран карты -->
+      <!-- КАРТА -->
       <div class="screen map-screen active" id="screen-map">
-        <div class="map-grid"></div>
+        <div class="map-background"></div>
+        <div class="map-river"></div>
         <div class="map-korea-outline"></div>
 
-        <div class="city-label city-seoul">Сеул</div>
-        <div class="city-label city-incheon">Инчхон</div>
-        <div class="city-label city-daegu">Тэгу</div>
-        <div class="city-label city-busan">Пусан</div>
-        <div class="city-label city-gwangju">Кванджу</div>
+        <div class="city-label city-seoul">Seoul</div>
+        <div class="city-label city-incheon">Incheon</div>
+        <div class="city-label city-daegu">Daegu</div>
+        <div class="city-label city-busan">Busan</div>
+        <div class="city-label city-gwangju">Gwangju</div>
 
         <div class="map-pin pin-1"></div>
         <div class="map-pin pin-2"></div>
         <div class="map-pin pin-3"></div>
         <div class="map-pin pin-4"></div>
 
+        <!-- ПОИСК НАД КАРТОЙ -->
+        <div class="map-search-pill" id="map-search-pill">
+          <div class="map-search-icon"></div>
+          <div>Самушили, кафе, маркеты…</div>
+        </div>
+
+        <!-- Кнопки справа -->
         <div class="right-controls">
-          <div class="ctrl-btn small">⤢</div>
+          <div class="ctrl-btn small">⟳</div>
           <div class="ctrl-btn">◎</div>
           <div class="ctrl-btn">＋</div>
           <div class="ctrl-btn small">➤</div>
         </div>
 
-        <!-- Топ-10 мест рядом -->
-        <div class="top-places-panel">
-          <div class="top-places-inner">
-            <div class="top-places-header">
+        <!-- НИЖНИЙ ШИТ С TOP-10 -->
+        <div class="bottom-sheet">
+          <div class="bottom-sheet-inner">
+            <div class="sheet-handle"></div>
+            <div class="sheet-header">
               <div>
-                <div class="top-places-title">Топ-10 мест рядом</div>
-                <div class="top-places-sub">По оценкам иностранцев в Корее</div>
+                <div class="sheet-title">TOP-10 Nearby Hotspots</div>
+                <div class="sheet-sub">По оценкам иностранцев в Корее</div>
               </div>
-              <div class="top-places-sub">1.2 км · Сеул</div>
+              <div class="sheet-sub">1.2 km · Seoul</div>
+            </div>
+            <div class="sheet-location-row">
+              <span>Paengseong-eup</span>
+              <span>Updated 13 min ago</span>
             </div>
 
-            <div class="top-places-list" id="places-list">
-              <!-- карточки заполняются скриптом -->
-            </div>
-          </div>
-        </div>
-
-        <!-- Модальное окно места -->
-        <div class="place-modal" id="place-modal">
-          <div class="place-modal-inner">
-            <div class="modal-row">
-              <div>
-                <div class="modal-title" id="modal-title">Кафе “Han River View”</div>
-                <div class="modal-rating" id="modal-rating">★ 4.9 · кофе, десерты</div>
-              </div>
-              <button class="btn btn-close" id="modal-close">✕</button>
-            </div>
-            <div class="modal-info" id="modal-info">
-              350 м · 5 мин пешком · Русскоязычный персонал, скидка по купону SIYAEM.
-            </div>
-            <div class="modal-actions">
-              <div class="btn">Добавить в избранное</div>
-              <div class="btn btn-main">Открыть как будто на карте</div>
+            <div class="sheet-grid" id="sheet-grid">
+              <!-- карточки добавятся скриптом -->
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Экран поиска -->
+      <!-- ПОИСК (отдельная страница, как 3 фото) -->
       <div class="screen search-screen" id="screen-search">
-        <div class="search-title">Поиск</div>
-        <div class="search-sub">Макет: здесь будет поиск по самушилям, кафе, авто, жилью и т.д.</div>
+        <div class="search-header">
+          <div class="search-title">Search</div>
+          <div class="search-sub">Поиск мест, самушилей, кафе, парковки и т.д.</div>
+        </div>
+
+        <div class="search-bar-full">
+          <div class="map-search-icon"></div>
+          <div style="flex:1; font-size:13px; color:#6b7280;">
+            Place, Bus, Subway or Address…
+          </div>
+        </div>
 
         <div class="search-chip-row">
-          <div class="chip">Самушили рядом</div>
-          <div class="chip">Кафе с русским меню</div>
-          <div class="chip">Работа на сегодня</div>
-          <div class="chip">Автосервисы</div>
-          <div class="chip">Салоны красоты</div>
+          <div class="chip">Samushil today</div>
+          <div class="chip">Russian-friendly cafe</div>
+          <div class="chip">Markets with СНГ продуктами</div>
+          <div class="chip">Car service</div>
+          <div class="chip">Beauty & Hair</div>
         </div>
 
-        <div class="search-input-mock">
-          Здесь будет строка поиска и фильтры. Пока это просто шаблон для презентации.
+        <div class="search-history-title">Recent</div>
+        <div class="history-item">
+          <span>Dunpo</span><span>11.18</span>
+        </div>
+        <div class="history-item">
+          <span>McDonald's Gimpo</span><span>11.18</span>
+        </div>
+        <div class="history-item">
+          <span>Samushil night shift Asan</span><span>11.17</span>
+        </div>
+        <div class="history-item">
+          <span>Russian Market Seoul</span><span>11.16</span>
         </div>
       </div>
 
-      <!-- Экран аккаунта -->
+      <!-- АККАУНТ -->
       <div class="screen account-screen" id="screen-account">
         <div class="account-header">
           <div class="avatar">IG</div>
           <div>
-            <div class="account-name">Мой аккаунт</div>
-            <div class="account-sub">Купоны, избранное, язык, поддержка</div>
+            <div class="account-name">My account</div>
+            <div class="account-sub">Coupons, favourites, language, support</div>
           </div>
         </div>
 
-        <div class="section-title">Купоны и бонусы</div>
+        <div class="section-title">Coupons & bonuses</div>
         <div class="card-row">
           <div class="small-card">
             До <b>–10%</b> в партнёрских кафе.<br>
-            Показывай карту SIYAEM при оплате.
-            <div class="badge">Активно</div>
+            Показывай карту K-MAP при оплате.
+            <div class="badge">Active</div>
           </div>
           <div class="small-card">
-            Бесплатный трансфер на самушиль<br>
-            (1 раз в месяц).
-            <div class="badge">Скоро</div>
+            1 бесплатный трансфер на самушиль<br>
+            каждый месяц.
+            <div class="badge">Coming soon</div>
           </div>
         </div>
 
-        <div class="section-title">Избранное</div>
+        <div class="section-title">Favourites</div>
         <div class="small-card">
-          12 мест в избранном: кафе, самушили, салоны, авто.<br>
-          Просто макет — нажатия никуда не ведут.
-          <div class="badge">Только демонстрация</div>
+          12 places saved: cafes, samushils, beauty, auto.<br>
+          Только макет — нажатия никуда не ведут.
+          <div class="badge">Demo only</div>
         </div>
 
-        <div class="section-title">Язык приложения</div>
+        <div class="section-title">App language</div>
         <select class="lang-select">
           <option>Русский</option>
-          <option>Қазақ тілі (Казахстан)</option>
+          <option>Қазақ тілі (Kazakhstan)</option>
           <option>Українська</option>
           <option>Oʻzbekcha</option>
           <option>한국어 (Korean)</option>
@@ -770,34 +758,34 @@
           Для презентации: языки просто отображаются, переключение пока не реализовано.
         </div>
 
-        <div class="section-title">Настройки и помощь</div>
+        <div class="section-title">Settings & help</div>
         <div class="list-item">
-          <span>Поддержка 24/7</span><span>Чат / WhatsApp</span>
+          <span>Support 24/7</span><span>Chat / WhatsApp</span>
         </div>
         <div class="list-item">
-          <span>О проекте SIYAEM Korea</span><span>Описание</span>
+          <span>About K-MAP Korea</span><span>Info</span>
         </div>
         <div class="list-item">
-          <span>Партнёрам</span><span>Условия</span>
+          <span>For partners</span><span>Conditions</span>
         </div>
         <div class="list-item">
-          <span>Выход</span><span>Только визуально</span>
+          <span>Log out</span><span>Visual only</span>
         </div>
       </div>
 
-      <!-- Нижнее меню -->
+      <!-- НИЖНЕЕ МЕНЮ -->
       <div class="bottom-nav">
         <div class="nav-item active" data-screen="map">
-          <div class="nav-icon">🗺️</div>
-          <span>Карта</span>
+          <div class="nav-icon">📍</div>
+          <span>Map</span>
         </div>
         <div class="nav-item" data-screen="search">
           <div class="nav-icon">🔍</div>
-          <span>Поиск</span>
+          <span>Search</span>
         </div>
         <div class="nav-item" data-screen="account">
           <div class="nav-icon">👤</div>
-          <span>Аккаунт</span>
+          <span>Account</span>
         </div>
       </div>
     </div>
@@ -805,64 +793,45 @@
 </div>
 
 <script>
-  // Данные 10 мест рядом
+  // TOP-10 места
   const places = [
-    { name: "Кафе Han River View", type: "кафе", rating: 4.9, distance: "350 м", tag: "Кофе, десерты" },
-    { name: "Samushil Asan Line 3", type: "самушиль", rating: 4.7, distance: "1.1 км", tag: "Дневная смена" },
-    { name: "Русский маркет Seoul", type: "маркет", rating: 4.8, distance: "900 м", tag: "Продукты СНГ" },
-    { name: "K-Garage Service", type: "автосервис", rating: 4.6, distance: "2.0 км", tag: "Диагностика" },
-    { name: "Beauty Room K-Style", type: "салон", rating: 4.9, distance: "1.4 км", tag: "Парикмахерская" },
-    { name: "24/7 Help Point", type: "центр помощи", rating: 4.8, distance: "650 м", tag: "Перевод, документы" },
-    { name: "Samushil Night Shift", type: "самушиль", rating: 4.5, distance: "3.2 км", tag: "Ночная смена" },
-    { name: "Russian Bakery Seoul", type: "кафе", rating: 4.9, distance: "1.9 км", tag: "Выпечка, кофе" },
-    { name: "Car Rent Korea", type: "авто", rating: 4.4, distance: "2.5 км", tag: "Аренда" },
-    { name: "Language Hub", type: "центр", rating: 4.7, distance: "800 м", tag: "Курсы корейского" }
+    { name: "Glamping Bom", tag: "Glamping / View", distance: "4 km away" },
+    { name: "Dutum Jumbo Pocha", tag: "Soup & Toast", distance: "1.6 km away" },
+    { name: "BBQ Pork Place", tag: "K-BBQ", distance: "2.3 km away" },
+    { name: "Dunpo Sports Center", tag: "Sports / Gym", distance: "2.5 km away" },
+    { name: "Russian Market Seoul", tag: "SNG products", distance: "3.1 km away" },
+    { name: "Han River View Cafe", tag: "Coffee & dessert", distance: "1.2 km away" },
+    { name: "Samushil Asan Line 3", tag: "Day shift", distance: "12 km away" },
+    { name: "Samushil Night Shift", tag: "Night shift", distance: "15 km away" },
+    { name: "Car Rent Korea", tag: "Rent a car", distance: "5.4 km away" },
+    { name: "Language Hub", tag: "Korean courses", distance: "800 m away" }
   ];
 
-  const placesList = document.getElementById("places-list");
-  const modal = document.getElementById("place-modal");
-  const modalTitle = document.getElementById("modal-title");
-  const modalRating = document.getElementById("modal-rating");
-  const modalInfo = document.getElementById("modal-info");
-  const modalClose = document.getElementById("modal-close");
+  const sheetGrid = document.getElementById("sheet-grid");
 
-  // Рисуем карточки
   places.forEach((p, index) => {
     const card = document.createElement("div");
-    card.className = "place-card" + (index === 0 ? " active" : "");
+    card.className = "sheet-card" + (index === 0 ? " active" : "");
     card.dataset.index = index;
 
     card.innerHTML = `
-      <div class="place-name">${p.name}</div>
-      <div class="place-meta">
-        <span>★ ${p.rating.toFixed(1)}</span>
-        <span>${p.type}</span>
-      </div>
-      <div class="place-tag">${p.tag}</div>
-      <div class="place-distance">${p.distance} от вас</div>
+      <div class="sheet-rank">${index + 1}</div>
+      <div class="sheet-name">${p.name}</div>
+      <div class="sheet-distance">${p.distance}</div>
+      <div class="sheet-tag">${p.tag}</div>
     `;
 
     card.addEventListener("click", () => {
-      document.querySelectorAll(".place-card").forEach(c => c.classList.remove("active"));
+      document.querySelectorAll(".sheet-card").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
-      showPlaceModal(p);
+      // только визуальный эффект — ничего не открываем,
+      // чтобы всё оставалось демо
     });
 
-    placesList.appendChild(card);
+    sheetGrid.appendChild(card);
   });
 
-  function showPlaceModal(place) {
-    modalTitle.textContent = place.name;
-    modalRating.textContent = `★ ${place.rating.toFixed(1)} · ${place.type}`;
-    modalInfo.textContent = `${place.distance} · Просто демонстрация. Здесь потом можно будет открывать маршрут и детали.`;
-    modal.style.display = "block";
-  }
-
-  modalClose.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
-
-  // Навигация между экранами
+  // Навигация по нижнему меню
   const navItems = document.querySelectorAll(".nav-item");
   const screens = {
     map: document.getElementById("screen-map"),
@@ -870,22 +839,25 @@
     account: document.getElementById("screen-account")
   };
 
+  function openScreen(name) {
+    Object.values(screens).forEach(el => el.classList.remove("active"));
+    screens[name].classList.add("active");
+    navItems.forEach(n => n.classList.remove("active"));
+    document.querySelector(`.nav-item[data-screen="${name}"]`).classList.add("active");
+  }
+
   navItems.forEach(item => {
     item.addEventListener("click", () => {
       const target = item.dataset.screen;
-      Object.values(screens).forEach(el => el.classList.remove("active"));
-      screens[target].classList.add("active");
-
-      navItems.forEach(n => n.classList.remove("active"));
-      item.classList.add("active");
-
-      // при переходе на карту закрываем модалку
-      if (target === "map") {
-        modal.style.display = "none";
-      }
+      openScreen(target);
     });
+  });
+
+  // Нажатие на поисковую пилюлю над картой -> сразу открываем экран поиска
+  const mapSearchPill = document.getElementById("map-search-pill");
+  mapSearchPill.addEventListener("click", () => {
+    openScreen("search");
   });
 </script>
 </body>
 </html>
-
