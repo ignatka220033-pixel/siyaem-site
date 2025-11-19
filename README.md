@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>K-MAP Korea — шаблон</title>
+  <title>ETHNOGRAM — шаблон</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -356,34 +356,65 @@
       font-weight: 500;
     }
 
-    /* === ЛЕНТА === */
-    .feed-screen {
+    /* === ЭКРАН ОБЪЯВЛЕНИЙ === */
+    .ads-screen {
       padding: 10px 14px 70px;
       background: #f9fafb;
       overflow-y: auto;
     }
 
-    .feed-title {
+    .ads-title {
       font-size: 20px;
       font-weight: 700;
       margin-bottom: 4px;
       color: #111827;
     }
 
-    .feed-sub {
+    .ads-sub {
       font-size: 12px;
       color: #6b7280;
       margin-bottom: 10px;
     }
 
-    .feed-section-title {
+    .ads-top-panel {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .ads-add-btn {
+      flex: 1;
+      background: #111827;
+      color: #f9fafb;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(15,23,42,0.5);
+    }
+
+    .ads-limit-info {
+      flex: 1;
+      font-size: 11px;
+      color: #6b7280;
+      background: #e5f2ff;
+      border-radius: 12px;
+      padding: 7px 9px;
+      border: 1px solid #bfdbfe;
+    }
+
+    .ads-section-title {
       font-size: 13px;
       font-weight: 600;
-      margin: 12px 0 6px;
+      margin: 10px 0 6px;
       color: #111827;
     }
 
-    .feed-card {
+    .ads-card {
       background: #ffffff;
       border-radius: 14px;
       border: 1px solid #e5e7eb;
@@ -394,21 +425,25 @@
       margin-bottom: 6px;
     }
 
-    .feed-label {
+    .ads-tag {
       font-size: 10px;
-      color: #ef4444;
+      color: #2563eb;
       margin-bottom: 2px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
-    .feed-label-blue { color: #2563eb; }
-    .feed-label-green { color: #059669; }
+    .ads-title-text {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
 
-    .feed-meta {
+    .ads-meta {
       font-size: 10px;
       color: #9ca3af;
-      margin-top: 4px;
+      margin-top: 3px;
+      display: flex;
+      justify-content: space-between;
     }
 
     /* === ПОИСК === */
@@ -582,7 +617,7 @@
 
   <div class="app">
     <div class="top-bar">
-      <div class="top-logo"><span>K-MAP</span> KOREA</div>
+      <div class="top-logo"><span>ETHNO</span>GRAM</div>
       <div class="top-icon-btn">☰</div>
     </div>
 
@@ -611,85 +646,114 @@
         </div>
 
         <div class="right-controls">
-          <div class="ctrl-btn small">⟳</div>
-          <div class="ctrl-btn">◎</div>
-          <div class="ctrl-btn">＋</div>
-          <div class="ctrl-btn small">➤</div>
+          <div class="ctrl-btn small">⟳</div> <!-- обновить карту -->
+          <div class="ctrl-btn">◎</div>      <!-- моё местоположение -->
+          <div class="ctrl-btn">＋</div>      <!-- масштаб/zoom -->
+          <div class="ctrl-btn small">➤</div> <!-- маршрут/навигация -->
         </div>
 
-        <!-- TOP-10 мест -->
+        <!-- TOP-10 заведений дня -->
         <div class="bottom-sheet">
           <div class="bottom-sheet-inner">
             <div class="sheet-handle"></div>
             <div class="sheet-header">
               <div>
-                <div class="sheet-title">TOP-10 Nearby Hotspots</div>
-                <div class="sheet-sub">Popular with foreigners in Korea</div>
+                <div class="sheet-title">TOP-10 places of the day</div>
+                <div class="sheet-sub">Daily picks for foreigners in Korea</div>
               </div>
               <div class="sheet-sub">1.2 km · Seoul</div>
             </div>
             <div class="sheet-location-row">
               <span>Paengseong-eup</span>
-              <span>Updated 13 min ago</span>
+              <span>Rotates every day</span>
             </div>
             <div class="sheet-grid" id="sheet-grid"></div>
           </div>
         </div>
       </div>
 
-      <!-- ЛЕНТА -->
-      <div class="screen feed-screen" id="screen-feed">
-        <div class="feed-title">Feed</div>
-        <div class="feed-sub">
-          Новости, предупреждения и жизнь в Корее для иностранцев.
+      <!-- ОБЪЯВЛЕНИЯ -->
+      <div class="screen ads-screen" id="screen-ads">
+        <div class="ads-title">Объявления</div>
+        <div class="ads-sub">
+          Доска для гостей и бизнеса: работа, жильё, распродажи, услуги.
         </div>
 
-        <div class="feed-section-title">Важные предупреждения</div>
-
-        <div class="feed-card">
-          <div class="feed-label">⚠ Вождение в нетрезвом виде</div>
-          Если вас остановят с алкоголем в крови, возможны крупные штрафы,
-          лишение прав и проблемы с визой. Всегда вызывайте такси или трезвого водителя.
-          <div class="feed-meta">Обновлено сегодня · Информация общего характера</div>
+        <div class="ads-top-panel">
+          <button class="ads-add-btn">
+            <span>＋ Add new ad</span>
+          </button>
+          <div class="ads-limit-info">
+            Free: 1 ad / month.<br>
+            ETHNOGRAM PLUS: 5 ads.<br>
+            Business: 15 ads.
+          </div>
         </div>
 
-        <div class="feed-card">
-          <div class="feed-label">⚠ Скоростной режим</div>
-          В Корее много камер, в том числе средней скорости. Частые лимиты:
-          30 / 50 / 60 / 80 / 100 км/ч. Превышение может привести к штрафу и снятию баллов.
-          <div class="feed-meta">Дороги по всей стране</div>
+        <div class="ads-section-title">Работа и услуги</div>
+
+        <div class="ads-card">
+          <div class="ads-tag">JOB</div>
+          <div class="ads-title-text">Ищу работу: водитель / помощник</div>
+          Опыт в Корее, есть личный автомобиль, готов к переработкам. Рассмотрю предложения в районе Asan / Cheonan.
+          <div class="ads-meta">
+            <span>Asan · 19 Nov</span>
+            <span>Guest user</span>
+          </div>
         </div>
 
-        <div class="feed-section-title">Правила и советы</div>
-
-        <div class="feed-card">
-          <div class="feed-label feed-label-blue">INFO · Вождение без прав</div>
-          Вождение без действительных корейских прав может привести к крупному штрафу,
-          судимости и проблемам с дальнейшим проживанием. Всегда проверяйте статус своей лицензии.
-          <div class="feed-meta">Для всех типов виз</div>
+        <div class="ads-card">
+          <div class="ads-tag">SERVICE</div>
+          <div class="ads-title-text">Русскоязычный мастер по авто</div>
+          Диагностика, замена масла, тормоза, помощь с покупкой авто. Консультации для иностранцев.
+          <div class="ads-meta">
+            <span>Seoul · 19 Nov</span>
+            <span>Business profile</span>
+          </div>
         </div>
 
-        <div class="feed-card">
-          <div class="feed-label feed-label-blue">INFO · Камеры и штрафы</div>
-          Многие камеры не видны сразу. Следите за знаками, разметкой и навигатором.
-          Лучше ехать на 5 км/ч медленнее, чем потом платить штраф.
-          <div class="feed-meta">Совет по безопасности</div>
+        <div class="ads-section-title">Товары и распродажи</div>
+
+        <div class="ads-card">
+          <div class="ads-tag">SALE</div>
+          <div class="ads-title-text">Сегодня распродажа пончиков</div>
+          Только сегодня: 3 пончика по цене 2. Скидка по ETHNOGRAM-купон+ на кассе.
+          <div class="ads-meta">
+            <span>Incheon · Today</span>
+            <span>Cafe partner</span>
+          </div>
         </div>
 
-        <div class="feed-section-title">Жизнь в Корее</div>
-
-        <div class="feed-card">
-          <div class="feed-label feed-label-green">LIFE · Полезные места</div>
-          Новый раздел в приложении: TOP-10 мест рядом — кафе, парки, спортзалы, маркеты.
-          Всё отобрано по отзывам иностранцев.
-          <div class="feed-meta">K-MAP Korea · Версия 0.1 (demo)</div>
+        <div class="ads-card">
+          <div class="ads-tag">MARKET</div>
+          <div class="ads-title-text">Продукты из СНГ</div>
+          Русский хлеб, кефир, конфеты, крупы. Скидка 5% для пользователей ETHNOGRAM.
+          <div class="ads-meta">
+            <span>Seoul · 18 Nov</span>
+            <span>Market partner</span>
+          </div>
         </div>
 
-        <div class="feed-card">
-          <div class="feed-label feed-label-green">LIFE · Комьюнити</div>
-          В будущем здесь можно будет публиковать объявления, искать соседей,
-          делиться рекомендациями и делить такси.
-          <div class="feed-meta">Планы на релиз 1.0</div>
+        <div class="ads-section-title">Жильё и соседи</div>
+
+        <div class="ads-card">
+          <div class="ads-tag">ROOM</div>
+          <div class="ads-title-text">Ищу соседа в комнату</div>
+          Комната в Dunpo, недалеко от станции. Нужен аккуратный сосед, лучше с машиной.
+          <div class="ads-meta">
+            <span>Dunpo · 18 Nov</span>
+            <span>Guest user</span>
+          </div>
+        </div>
+
+        <div class="ads-card">
+          <div class="ads-tag">RENT</div>
+          <div class="ads-title-text">Сдам маленький офис под услуги</div>
+          Подойдёт для мастера, мини-салона, тату или микс-бизнеса. Помогу с договором.
+          <div class="ads-meta">
+            <span>Cheonan · 17 Nov</span>
+            <span>Owner</span>
+          </div>
         </div>
       </div>
 
@@ -698,7 +762,7 @@
         <div class="search-header">
           <div class="search-title">Search</div>
           <div class="search-sub">
-            Поиск по картам: кафе, магазины, сервисы, спорт, развлечения.
+            Поиск по карте: кафе, магазины, сервисы, спорт, развлечения.
           </div>
         </div>
 
@@ -734,7 +798,7 @@
         <div class="account-header">
           <div class="avatar">IG</div>
           <div>
-            <div class="account-name">My account</div>
+            <div class="account-name">My ETHNOGRAM</div>
             <div class="account-sub">Coupons, favourites, language, rules</div>
           </div>
         </div>
@@ -743,19 +807,19 @@
         <div class="card-row">
           <div class="small-card">
             До <b>–10%</b> в партнёрских кафе и сервисах.<br>
-            Показывай карту K-MAP при оплате.
+            Показывай ETHNOGRAM-купон при оплате.
             <div class="badge">Active</div>
           </div>
           <div class="small-card">
-            Бесплатный трансфер до партнёрской точки<br>
-            раз в месяц (в планах).
-            <div class="badge">Coming soon</div>
+            Бесплатный бонус раз в месяц<br>
+            для подписчиков (кофе/десерт).
+            <div class="badge">Planned</div>
           </div>
         </div>
 
         <div class="section-title">Favourites</div>
         <div class="small-card">
-          12 places saved: cafes, markets, beauty, auto, sports.<br>
+          Saved places: cafes, markets, beauty, auto, sports.<br>
           Только макет — нажатия никуда не ведут.
           <div class="badge">Demo only</div>
         </div>
@@ -787,7 +851,7 @@
           <span>Driving safety tips</span><span>Important</span>
         </div>
         <div class="list-item">
-          <span>Version</span><span>0.1 · Demo</span>
+          <span>Version</span><span>ETHNOGRAM · 0.1 demo</span>
         </div>
 
         <div class="section-title">Settings & help</div>
@@ -795,7 +859,7 @@
           <span>Support 24/7</span><span>Chat / WhatsApp</span>
         </div>
         <div class="list-item">
-          <span>About K-MAP Korea</span><span>Info</span>
+          <span>About ETHNOGRAM</span><span>Info</span>
         </div>
         <div class="list-item">
           <span>Log out</span><span>Visual only</span>
@@ -808,9 +872,9 @@
           <div class="nav-icon">📍</div>
           <span>Map</span>
         </div>
-        <div class="nav-item" data-screen="feed">
-          <div class="nav-icon">📰</div>
-          <span>Feed</span>
+        <div class="nav-item" data-screen="ads">
+          <div class="nav-icon">📢</div>
+          <span>Ads</span>
         </div>
         <div class="nav-item" data-screen="search">
           <div class="nav-icon">🔍</div>
@@ -826,7 +890,7 @@
 </div>
 
 <script>
-  // TOP-10 places (без самушиль)
+  // TOP-10 places of the day
   const places = [
     { name: "Glamping Bom", tag: "Glamping / View", distance: "4 km away" },
     { name: "Dutum Jumbo Pocha", tag: "Food & drinks", distance: "1.6 km away" },
@@ -862,7 +926,7 @@
   const navItems = document.querySelectorAll(".nav-item");
   const screens = {
     map: document.getElementById("screen-map"),
-    feed: document.getElementById("screen-feed"),
+    ads: document.getElementById("screen-ads"),
     search: document.getElementById("screen-search"),
     account: document.getElementById("screen-account")
   };
